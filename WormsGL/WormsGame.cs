@@ -90,6 +90,12 @@ namespace WormsGL
             Draw.FilledTriangle(300, 200, 50, 50, Color4.PapayaWhip);
             Draw.FilledEllipse(500, 100, 50, 80, Color4.Green);
 
+            // test zatizeni
+            for (int i = 0; i < 50000; i++)
+            {
+                Draw.Point(0, 0, Color4.Black);
+            }
+
             font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10));
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30));
             font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50));
