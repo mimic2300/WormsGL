@@ -90,7 +90,7 @@ namespace Glib
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / 36;
+                angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
 
@@ -111,10 +111,11 @@ namespace Glib
             GL.Color4(color);
 
             double angle = 0;
+            const int count = 36;
 
-            for (int i = 0; i < 36; i++)
+            for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / 36;
+                angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
 
@@ -135,10 +136,11 @@ namespace Glib
             GL.Color4(color);
 
             double angle = 0;
+            const int count = 36;
 
-            for (int i = 0; i < 36; i++)
+            for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / 36;
+                angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
 
@@ -162,7 +164,7 @@ namespace Glib
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / 36;
+                angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
 
