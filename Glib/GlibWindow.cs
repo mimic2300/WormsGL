@@ -1,5 +1,4 @@
-﻿using Glib.Input;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -13,7 +12,6 @@ namespace Glib
     public abstract class GlibWindow : GameWindow
     {
         private string contentDirectory = Environment.CurrentDirectory;
-        private MouseInput mouse;
 
         /// <summary>
         /// Konstruktor.
@@ -25,7 +23,6 @@ namespace Glib
         public GlibWindow(string title, int width, int height, GraphicsMode mode)
             : base(width, height, mode, title)
         {
-            mouse = new MouseInput(this);
         }
 
         /// <summary>

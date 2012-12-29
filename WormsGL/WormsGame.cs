@@ -1,5 +1,4 @@
 ﻿using Glib;
-using Glib.Input;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -13,7 +12,6 @@ namespace WormsGL
     {
         private QFont font;
         private float rotation = 0;
-        private MouseInput mouse;
 
         public WormsGame()
             : base("Worms", 800, 600, GraphicsMode.Default)
@@ -21,7 +19,6 @@ namespace WormsGL
             // adresář pro herní obsah
             Content = "Content";
             font = new QFont(Path.Combine(Content, "Comfortaa-Regular.ttf"), 16f);
-            mouse = new MouseInput(this);
         }
 
         protected override void OnResize(System.EventArgs e)
