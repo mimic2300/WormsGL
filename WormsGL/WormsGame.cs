@@ -82,6 +82,7 @@ namespace WormsGL
             Draw.Point(300, 300, Color4.Red);
             Draw.Rectangle(400, 400, 25, 25, Color4.Yellow);
             Draw.Circle(300, 50, 25, Color4.Orchid);
+            Draw.Ellipse(200, 500, 100, 50, Color4.Pink);
             Draw.Triangle(200, 200, 50, 50, Color4.PaleTurquoise);
             // testy
             Draw.FilledRectangle(400, 400, 25, 25, Color4.Red);
@@ -93,7 +94,7 @@ namespace WormsGL
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30));
             font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50));
             font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 70));
-            font.Print(string.Format("Delta: {0}", e.Time.ToString("F3")), new Vector2(10, 90));
+            font.Print(string.Format("Delta: {0}", e.Time.ToString("0.000000")), new Vector2(10, 90));
             font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110));
             font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
         }
