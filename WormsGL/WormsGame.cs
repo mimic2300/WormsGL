@@ -28,7 +28,7 @@ namespace WormsGL
             base.OnResize(e);
 
             // vytvoří projekční matici, která zarovná šířku a výšku na střed okna
-            Matrix4 projection = Matrix4.CreateOrthographic(Width, Height, -1f, 1f);
+            Matrix4 projection = Matrix4.CreateOrthographic(-Width, Height, -1f, 1f);
             // nastaví mód pro projekti
             GL.MatrixMode(MatrixMode.Projection);
             // použije naš vzor projekce
@@ -60,22 +60,30 @@ namespace WormsGL
             GL.LoadIdentity();
             // vypne vykreslení textůr, aby se zobrazil font (textůry přesune jakoby na pozadí)
             GL.Disable(EnableCap.Texture2D);
+
+            GL.PointSize(10);
         }
 
         protected override void OnRender(FrameEventArgs e)
         {
-            // rotace viewmodel matixe podle osy Z
-            GL.Rotate(rotation, Vector3.UnitZ);
+            //GL.Rotate(rotation, Vector3.UnitZ);
 
+            /*
             GL.Begin(BeginMode.Quads);
             GL.Color3(1f, 0f, 0f); GL.Vertex3(-Width / 4, Height / 4, 0);
             GL.Color3(0f, 1f, 0f); GL.Vertex3(-Width / 4, -Height / 4, 0);
             GL.Color3(0f, 0f, 1f); GL.Vertex3(Width / 4, -Height / 4, 0);
             GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
+            GL.End();*/
+
+            GL.Begin(BeginMode.Lines);
+            GL.Color3(1f, 0f, 0f);
+            GL.Vertex2(0, 0);
+            GL.Vertex2(Width, Height);
             GL.End();
 
             QFont.Begin();
-            font.Print(string.Format("FPS: {0}", FPS), new Vector2(10, 10));
+            font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 10));
             font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 30));
             font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 50));
             font.Print(string.Format("Delta: {0}", e.Time.ToString("F3")), new Vector2(10, 70));
