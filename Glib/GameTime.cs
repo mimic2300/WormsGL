@@ -13,6 +13,14 @@ namespace Glib
         /// <summary>
         /// Konstruktor.
         /// </summary>
+        public GameTime()
+        {
+            gameTimeWatch = new Stopwatch();
+        }
+
+        /// <summary>
+        /// Konstruktor, zapne se na eventu Load.
+        /// </summary>
         /// <param name="window">Herní okno.</param>
         public GameTime(GlibWindow window)
         {

@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System;
 
 namespace Glib
 {
@@ -55,6 +56,28 @@ namespace Glib
             GL.Vertex2(x, y + heigth);
             GL.Vertex2(x + width, y + heigth);
             GL.Vertex2(x + width, y);
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí kružnici.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radius">Poloměr.</param>
+        /// <param name="color">Barva.</param>
+        public static void Circle(float x, float y, float radius, Color4 color)
+        {
+            GL.Begin(BeginMode.LineLoop);
+            GL.Color4(color);
+
+            double angle = 0;
+            for (int i = 0; i < 36; i++)
+            {
+                angle = i * 2 * Math.PI / 36;
+                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
+            }
+            
             GL.End();
         }
     }
