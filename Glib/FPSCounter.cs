@@ -10,7 +10,7 @@ namespace Glib
         private double value;
         private double valuesCount;
 
-        public float FPS
+        public double FPS
         {
             get;
             private set;
@@ -37,7 +37,7 @@ namespace Glib
 
             if (fpsClock.ElapsedMilliseconds > 1000)
             {
-                FPS = (int)(value / valuesCount);
+                FPS = (value / valuesCount);
                 value = valuesCount = 0;
                 fpsClock.Restart();
             }
