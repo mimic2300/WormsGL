@@ -79,6 +79,9 @@ namespace WormsGL
             Draw.Point(300, 300, Color4.Red);
             Draw.Rectangle(400, 400, 25, 25, Color4.Red);
 
+            Draw.Point(500, 500, Color4.Yellow);
+            GL.PointSize(5);
+
             EndPixelSystem();
 
             QFont.Begin();
