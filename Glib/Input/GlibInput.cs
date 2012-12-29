@@ -16,7 +16,7 @@ namespace Glib.Input
         public GlibInput(GlibWindow window)
         {
             if (window == null)
-                throw new ArgumentNullException("Instance pro GlibWindow je NULL.");
+                throw new ArgumentNullException("window", "Instance pro GlibWindow je NULL.");
 
             this.window = window;
         }

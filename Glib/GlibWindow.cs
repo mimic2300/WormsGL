@@ -15,6 +15,7 @@ namespace Glib
         private string contentDirectory = Environment.CurrentDirectory;
         private KeyboardInput keyboard;
         private MouseInput mouse;
+        private FPSCounter fpsCounter;
 
         /// <summary>
         /// Konstruktor.
@@ -28,6 +29,8 @@ namespace Glib
         {
             keyboard = new KeyboardInput(this);
             mouse = new MouseInput(this);
+
+            fpsCounter = new FPSCounter(this);
         }
 
         /// <summary>
@@ -58,16 +61,19 @@ namespace Glib
         /// <summary>
         /// Snímky za sekundu.
         /// </summary>
-        public int FPS
+        public double FPS
         {
-            get { return (int)Math.Round(RenderFrequency); }
+            get
+            {
+                return fpsCounter.FPS;
+            }
         }
 
         /// <summary>
         /// Pozice okna na ose X.
         /// </summary>
         /// <remarks>Překrývá původní vlastnost.</remarks>
-        public int X
+        public new int X
         {
             get { return ClientRectangle.X; }
         }
@@ -76,7 +82,7 @@ namespace Glib
         /// Pozice okna na ose Y.
         /// </summary>
         /// <remarks>Překrývá původní vlastnost.</remarks>
-        public int Y
+        public new int Y
         {
             get { return ClientRectangle.Y; }
         }
@@ -85,7 +91,7 @@ namespace Glib
         /// Šířka okna.
         /// </summary>
         /// <remarks>Překrývá původní vlastnost.</remarks>
-        public int Width
+        public new int Width
         {
             get { return ClientRectangle.Width; }
         }
@@ -94,7 +100,7 @@ namespace Glib
         /// Výška okna.
         /// </summary>
         /// <remarks>Překrývá původní vlastnost.</remarks>
-        public int Height
+        public new int Height
         {
             get { return ClientRectangle.Height; }
         }
@@ -130,11 +136,6 @@ namespace Glib
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-
-            // DEBUG
-            double fps = Fps.GetFps(e.Time);
-            fps *= 0.99f + RenderFrequency * 0.01; 
-            System.Console.WriteLine(fps);
 
             OnPreRender();
             OnRender(e);
