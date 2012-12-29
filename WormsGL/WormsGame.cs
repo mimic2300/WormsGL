@@ -51,29 +51,35 @@ namespace WormsGL
                 rotation = 0;
         }
 
-        protected override void OnRenderBegin()
+        protected override void OnRenderBegin(FrameEventArgs e)
         {
             // není povinný, ale musí se vytvořit vlastní nastavení OpenGL
-            base.OnRenderBegin();
+            base.OnRenderBegin(e);
 
             // nastaví modilview na jednotkovou matici
             GL.LoadIdentity();
             // vypne vykreslení textůr, aby se zobrazil font (textůry přesune jakoby na pozadí)
             GL.Disable(EnableCap.Texture2D);
-
-            GL.PointSize(10);
         }
 
         protected override void OnRender(FrameEventArgs e)
         {
+            /*
             GL.Rotate(rotation, Vector3.UnitZ);
-
             GL.Begin(BeginMode.Quads);
             GL.Color3(1f, 0f, 0f); GL.Vertex3(-Width / 4, Height / 4, 0);
             GL.Color3(0f, 1f, 0f); GL.Vertex3(-Width / 4, -Height / 4, 0);
             GL.Color3(0f, 0f, 1f); GL.Vertex3(Width / 4, -Height / 4, 0);
             GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
-            GL.End();
+            GL.End();*/
+
+            BeginPixelSystem();
+
+            Draw.Line(200, 200, 400, 200, Color4.Red);
+            Draw.Point(300, 300, Color4.Red);
+            Draw.Rectangle(400, 400, 25, 25, Color4.Red);
+
+            EndPixelSystem();
 
             QFont.Begin();
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 10));

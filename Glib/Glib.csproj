@@ -46,6 +46,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Draw.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="GameTime.cs" />
     <Compile Include="GlibWindow.cs" />

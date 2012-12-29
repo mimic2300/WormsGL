@@ -10,7 +10,7 @@ namespace Glib
     /// <summary>
     /// Herní okno.
     /// </summary>
-    public abstract class GlibWindow : GameWindow
+    public abstract class GlibWindow : GameWindow, IDisposable
     {
         private string contentDirectory = Environment.CurrentDirectory;
         private KeyboardInput keyboard;
@@ -227,6 +227,16 @@ namespace Glib
         /// </summary>
         /// <param name="e"></param>
         protected abstract void OnRender(FrameEventArgs e);
+
+        /// <summary>
+        /// Uvolní prostředky.
+        /// </summary>
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            gameTime.Stop();
+        }
 
         #endregion Virtuální a abstraktní funkce
     }

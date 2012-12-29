@@ -42,13 +42,14 @@ namespace Glib
         /// </summary>
         public void Start()
         {
-            gameTimeWatch.Start();
+            if (!gameTimeWatch.IsRunning)
+                gameTimeWatch.Start();
         }
     
         /// <summary>
         /// Zastaví stopky.
         /// </summary>
-        /// <param name="reset">Pokud true, tak se cas vyresetuje na nulu.</param>
+        /// <param name="reset">Pokud bude true, tak se čas vyresetuje na 0.</param>
         public void Stop(bool reset = false)
         {
             if (reset)
