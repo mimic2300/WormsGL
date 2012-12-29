@@ -75,7 +75,6 @@ namespace Glib
             base.OnResize(e);
 
             GL.Viewport(X, Y, Width, Height);
-            GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
         }
 
         /// <summary>
@@ -86,34 +85,25 @@ namespace Glib
         {
             base.OnRenderFrame(e);
 
-            Initialize();
-            Update(e);
-            Render(e);
+            OnPreRender();
+            OnRender(e);
 
             SwapBuffers(); // prohodí backBuffer a frontBuffer
         }
 
         /// <summary>
-        /// Initializace openGL.
+        /// Initializace openGL před vykreslováním (provádí se vždy).
         /// </summary>
-        protected virtual void Initialize()
+        protected virtual void OnPreRender()
         {
             // vyčistí barevný buffer
             GL.Clear(ClearBufferMask.ColorBufferBit);
         }
 
         /// <summary>
-        /// Aktualizace okna.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void Update(FrameEventArgs e)
-        {
-        }
-
-        /// <summary>
         /// Vykreslení do okna.
         /// </summary>
         /// <param name="e"></param>
-        protected abstract void Render(FrameEventArgs e);
+        protected abstract void OnRender(FrameEventArgs e);
     }
 }

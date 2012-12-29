@@ -1,4 +1,5 @@
-﻿using OpenTK.Input;
+﻿using OpenTK;
+using OpenTK.Input;
 using System;
 using System.Drawing;
 
@@ -23,7 +24,7 @@ namespace Glib.Input
             window.UpdateFrame += UpdateFrame;
         }
 
-        private void UpdateFrame(object sender, OpenTK.FrameEventArgs e)
+        private void UpdateFrame(object sender, FrameEventArgs e)
         {
             // Aktualizuje state
             state = Mouse.GetState();
