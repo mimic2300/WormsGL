@@ -13,6 +13,7 @@ namespace WormsGL
     {
         private QFont font;
         private float rotation = 0;
+        private int textureId = 0;
 
         public WormsGame()
             : base("Worms", 800, 600, GraphicsMode.Default)
@@ -24,6 +25,13 @@ namespace WormsGL
             font.Options.Colour = Color4.PaleGreen;
 
             VSync = VSyncMode.Off;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            textureId = Util.Texture(Path.Combine(Content, "image.png"));
         }
 
         protected override void OnResize(System.EventArgs e)
@@ -71,7 +79,8 @@ namespace WormsGL
             GL.Color3(0f, 1f, 0f); GL.Vertex3(-Width / 4, -Height / 4, 0);
             GL.Color3(0f, 0f, 1f); GL.Vertex3(Width / 4, -Height / 4, 0);
             GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
-            GL.End();*/
+            GL.End();
+             */
 
             // vykreslení čar myši
             Draw.Line(Mouse.X, 0, Mouse.X, Height, Color4.DarkGray);
@@ -90,12 +99,23 @@ namespace WormsGL
             Draw.FilledTriangle(300, 200, 50, 50, Color4.PapayaWhip);
             Draw.FilledEllipse(500, 100, 50, 80, Color4.Green);
 
-            // test zatizeni
-            for (int i = 0; i < 50000; i++)
-            {
-                Draw.Point(0, 0, Color4.Black);
-            }
+            //=========================================================
+            GL.Enable(EnableCap.Texture2D);
+            GL.Begin(BeginMode.Quads);
+            GL.BindTexture(TextureTarget.Texture2D, textureId);
 
+            GL.TexCoord2(new Vector2(0, 0)); GL.Vertex3(50, 50, 0);
+            GL.TexCoord2(new Vector2(0, 1)); GL.Vertex3(0, 100, 0);
+            GL.TexCoord2(new Vector2(1, 1)); GL.Vertex3(100, 100, 0);
+            GL.TexCoord2(new Vector2(1, 0)); GL.Vertex3(100, 0, 0);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.End();
+            GL.Disable(EnableCap.Texture2D); // opet se vypne kvuli fontu
+            //=========================================================
+
+            
+            /*
             font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10));
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30));
             font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50));
@@ -103,6 +123,7 @@ namespace WormsGL
             font.Print(string.Format("Delta: {0}", e.Time.ToString("0.000000")), new Vector2(10, 90));
             font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110));
             font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
+             */
         }
     }
 }
