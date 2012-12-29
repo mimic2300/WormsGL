@@ -1,4 +1,5 @@
 ﻿using Glib;
+using Glib.Input;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -8,10 +9,12 @@ namespace WormsGL
     internal class WormsGame : GlibWindow
     {
         private float rotation = 0;
+        private MouseInput mouse;
 
         public WormsGame()
             : base("Worms", 800, 600, GraphicsMode.Default)
         {
+            mouse = new MouseInput(this);
         }
 
         protected override void OnResize(System.EventArgs e)
@@ -56,6 +59,8 @@ namespace WormsGL
             GL.Color3(0f, 0f, 1f); GL.Vertex3(Width / 4, -Height / 4, 0);
             GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
             GL.End();
+
+            
         }
     }
 }

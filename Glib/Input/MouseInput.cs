@@ -28,6 +28,8 @@ namespace Glib.Input
         {
             // Aktualizuje state
             state = Mouse.GetState();
+            
+            System.Console.WriteLine(this);
         }
 
         /// <summary>
