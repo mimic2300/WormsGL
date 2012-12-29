@@ -1,44 +1,80 @@
-﻿using System;
+﻿using OpenTK;
+using System;
 using System.Diagnostics;
 
 namespace Glib
 {
-    public class FPSCounter
+    /// <summary>
+    /// Výpočet FPS.
+    /// </summary>
+    public class FpsCounter
     {
         private Stopwatch fpsClock;
         private GlibWindow window;
         private double value;
         private double valuesCount;
+        private double fps = 0;
 
-        public double FPS
-        {
-            get;
-            private set;
-        }
-
-        public FPSCounter(GlibWindow window)
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        /// <param name="window">Herní okno.</param>
+        public FpsCounter(GlibWindow window)
         {
             fpsClock = new Stopwatch();
-            this.window = window;
 
+            this.window = window;
             window.UpdateFrame += UpdateFrame;
-            window.Load += Load;
+            window.Load += new EventHandler<EventArgs>((o, e) => { Start(); });
         }
 
-        private void Load(object sender, EventArgs e)
+        /// <summary>
+        /// Snímky za sekundu.
+        /// </summary>
+        public double FPS
+        {
+            get { return fps; }
+        }
+
+        /// <summary>
+        /// Stav stopek.
+        /// </summary>
+        public bool IsRunning
+        {
+            get { return fpsClock.IsRunning; }
+        }
+
+        /// <summary>
+        /// Spustí stopky.
+        /// </summary>
+        public void Start()
         {
             fpsClock.Start();
         }
 
-        private void UpdateFrame(object sender, OpenTK.FrameEventArgs e)
+        /// <summary>
+        /// Zastaví stopky.
+        /// </summary>
+        public void Stop()
+        {
+            fpsClock.Stop();
+        }
+
+        /// <summary>
+        /// Aktualizace herního okna.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UpdateFrame(object sender, FrameEventArgs e)
         {
             value += window.RenderFrequency;
             valuesCount++;
 
             if (fpsClock.ElapsedMilliseconds > 1000)
             {
-                FPS = (value / valuesCount);
-                value = valuesCount = 0;
+                fps = value / valuesCount;
+                value = 0;
+                valuesCount = 0;
                 fpsClock.Restart();
             }
         }

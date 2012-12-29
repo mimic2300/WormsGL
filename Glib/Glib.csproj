@@ -46,7 +46,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FPSCounter.cs" />
+    <Compile Include="FpsCounter.cs" />
     <Compile Include="GlibWindow.cs" />
     <Compile Include="Input\GlibInput.cs" />
     <Compile Include="Input\KeyboardInput.cs" />

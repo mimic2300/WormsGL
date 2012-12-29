@@ -12,6 +12,7 @@ namespace WormsGL
     {
         private QFont font;
         private float rotation = 0;
+        private Matrix4 projection;
 
         public WormsGame()
             : base("Worms", 800, 600, GraphicsMode.Default)
@@ -28,7 +29,7 @@ namespace WormsGL
             base.OnResize(e);
 
             // vytvoří projekční matici, která zarovná šířku a výšku na střed okna
-            Matrix4 projection = Matrix4.CreateOrthographic(-Width, Height, -1f, 1f);
+            projection = Matrix4.CreateOrthographic(Width, Height, -1f, 1f);
             // nastaví mód pro projekti
             GL.MatrixMode(MatrixMode.Projection);
             // použije naš vzor projekce
@@ -51,10 +52,10 @@ namespace WormsGL
                 rotation = 0;
         }
 
-        protected override void OnPreRender()
+        protected override void OnRenderBegin()
         {
             // není povinný, ale musí se vytvořit vlastní nastavení OpenGL
-            base.OnPreRender();
+            base.OnRenderBegin();
 
             // nastaví modilview na jednotkovou matici
             GL.LoadIdentity();
@@ -66,21 +67,26 @@ namespace WormsGL
 
         protected override void OnRender(FrameEventArgs e)
         {
-            //GL.Rotate(rotation, Vector3.UnitZ);
+            GL.Rotate(rotation, Vector3.UnitZ);
 
-            /*
             GL.Begin(BeginMode.Quads);
             GL.Color3(1f, 0f, 0f); GL.Vertex3(-Width / 4, Height / 4, 0);
             GL.Color3(0f, 1f, 0f); GL.Vertex3(-Width / 4, -Height / 4, 0);
             GL.Color3(0f, 0f, 1f); GL.Vertex3(Width / 4, -Height / 4, 0);
             GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
-            GL.End();*/
-
-            GL.Begin(BeginMode.Lines);
-            GL.Color3(1f, 0f, 0f);
-            GL.Vertex2(0, 0);
-            GL.Vertex2(Width, Height);
             GL.End();
+
+            BeginPixelSystem(); // resetuje i matici (proto zde nefunguje rotace)
+
+            for (int i = 0; i < 1000; i++)
+            {
+                GL.Begin(BeginMode.Points);
+                GL.Color3(1f, 0f, 0f);
+                GL.Vertex2(300, 300);
+                GL.End();
+            }
+
+            EndPixelSystem();
 
             QFont.Begin();
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 10));

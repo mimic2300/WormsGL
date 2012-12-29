@@ -15,7 +15,10 @@ namespace Glib
         private string contentDirectory = Environment.CurrentDirectory;
         private KeyboardInput keyboard;
         private MouseInput mouse;
-        private FPSCounter fpsCounter;
+        private FpsCounter fpsCounter;
+        private bool begin = false;
+
+        #region Konstruktory
 
         /// <summary>
         /// Konstruktor.
@@ -29,9 +32,12 @@ namespace Glib
         {
             keyboard = new KeyboardInput(this);
             mouse = new MouseInput(this);
-
-            fpsCounter = new FPSCounter(this);
+            fpsCounter = new FpsCounter(this);
         }
+
+        #endregion Konstruktory
+
+        #region Vlastnosti
 
         /// <summary>
         /// Adresář pro herní obsah.
@@ -63,10 +69,7 @@ namespace Glib
         /// </summary>
         public double FPS
         {
-            get
-            {
-                return fpsCounter.FPS;
-            }
+            get { return fpsCounter.FPS; }
         }
 
         /// <summary>
@@ -105,6 +108,53 @@ namespace Glib
             get { return ClientRectangle.Height; }
         }
 
+        #endregion Vlastnosti
+
+        #region Funkce
+
+        /// <summary>
+        /// Zahájí souřadnicový systém podle pixelů.
+        /// </summary>
+        public void BeginPixelSystem()
+        {
+            GraphicsContext.Assert();
+
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.PushMatrix();
+            GL.LoadIdentity();
+            GL.Ortho(X, Width, Height, Y, -1.0, 1.0);
+
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.PushMatrix();
+            GL.LoadIdentity();
+
+            begin = true;
+        }
+
+        /// <summary>
+        /// Ukončí souřadnicový systém podle pixelů.
+        /// </summary>
+        public void EndPixelSystem()
+        {
+            if (begin)
+            {
+                GraphicsContext.Assert();
+
+                GL.MatrixMode(MatrixMode.Modelview);
+                GL.PopMatrix();
+
+                GL.MatrixMode(MatrixMode.Projection);
+                GL.PopMatrix();
+
+                GL.MatrixMode(MatrixMode.Modelview);
+            }
+            begin = false;
+        }
+
+        #endregion Funkce
+
+        #region Virtuální a abstraktní funkce
+
         /// <summary>
         /// Načtení okna.
         /// </summary>
@@ -137,19 +187,26 @@ namespace Glib
         {
             base.OnRenderFrame(e);
 
-            OnPreRender();
+            OnRenderBegin();
             OnRender(e);
 
             SwapBuffers(); // prohodí backBuffer a frontBuffer
         }
 
         /// <summary>
-        /// Initializace openGL před vykreslováním (provádí se vždy).
+        /// Před-vykreslení.
         /// </summary>
-        protected virtual void OnPreRender()
+        protected virtual void OnRenderBegin()
         {
             // vyčistí barevný buffer
             GL.Clear(ClearBufferMask.ColorBufferBit);
+        }
+
+        /// <summary>
+        /// Po-vykreslení.
+        /// </summary>
+        protected virtual void OnRenderEnds()
+        {
         }
 
         /// <summary>
@@ -157,5 +214,7 @@ namespace Glib
         /// </summary>
         /// <param name="e"></param>
         protected abstract void OnRender(FrameEventArgs e);
+
+        #endregion Virtuální a abstraktní funkce
     }
 }
