@@ -8,7 +8,7 @@ namespace Glib
     /// <summary>
     /// Herní okno.
     /// </summary>
-    public class GlibWindow : GameWindow
+    public abstract class GlibWindow : GameWindow
     {
         /// <summary>
         /// Konstruktor.
@@ -62,8 +62,8 @@ namespace Glib
         {
             base.OnLoad(e);
 
-            // barva pozadí - hodně tmavě šedá
-            GL.ClearColor(0.1f, 0.1f, 0.1f, 1f);
+            // barva pozadí - černá
+            GL.ClearColor(0, 0, 0, 1);
         }
 
         /// <summary>
@@ -75,6 +75,7 @@ namespace Glib
             base.OnResize(e);
 
             GL.Viewport(X, Y, Width, Height);
+            GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
         }
 
         /// <summary>
