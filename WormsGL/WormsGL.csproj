@@ -42,6 +42,9 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\libs\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="QuickFont">
+      <HintPath>..\libs\QuickFont.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -60,6 +63,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Content\Comfortaa-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

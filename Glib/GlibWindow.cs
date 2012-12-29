@@ -1,7 +1,9 @@
-﻿using OpenTK;
+﻿using Glib.Input;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System;
+using System.IO;
 
 namespace Glib
 {
@@ -10,6 +12,9 @@ namespace Glib
     /// </summary>
     public abstract class GlibWindow : GameWindow
     {
+        private string contentDirectory = Environment.CurrentDirectory;
+        private MouseInput mouse;
+
         /// <summary>
         /// Konstruktor.
         /// </summary>
@@ -20,6 +25,16 @@ namespace Glib
         public GlibWindow(string title, int width, int height, GraphicsMode mode)
             : base(width, height, mode, title)
         {
+            mouse = new MouseInput(this);
+        }
+
+        /// <summary>
+        /// Adresář pro herní obsah.
+        /// </summary>
+        public string Content
+        {
+            get { return contentDirectory; }
+            set { contentDirectory = Path.Combine(Environment.CurrentDirectory, value); }
         }
 
         /// <summary>

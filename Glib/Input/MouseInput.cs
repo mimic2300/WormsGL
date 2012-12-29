@@ -10,8 +10,8 @@ namespace Glib.Input
     /// </summary>
     public class MouseInput
     {
-        GlibWindow window;
-        MouseState state;
+        private GlibWindow window;
+        private MouseState state;
 
         /// <summary>
         /// Vytvoří nový objekt typu MouseInput.

@@ -3,18 +3,28 @@ using Glib.Input;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using QuickFont;
+using System;
+using System.IO;
 
 namespace WormsGL
 {
     internal class WormsGame : GlibWindow
     {
+        private QFont font;
         private float rotation = 0;
         private MouseInput mouse;
 
         public WormsGame()
             : base("Worms", 800, 600, GraphicsMode.Default)
         {
+<<<<<<< HEAD
+            // adresář pro herní obsah
+            Content = "Content";
+            font = new QFont(Path.Combine(Content, "Comfortaa-Regular.ttf"), 16f);
+=======
             mouse = new MouseInput(this);
+>>>>>>> 2782bd12ce0981544eb3f4a46e2f3d65ade43cd4
         }
 
         protected override void OnResize(System.EventArgs e)
@@ -46,6 +56,8 @@ namespace WormsGL
 
             // nastaví modilview na jednotkovou matici
             GL.LoadIdentity();
+            // vypne vykreslení textůr, aby se zobrazil font (textůry přesune jakoby na pozadí)
+            GL.Disable(EnableCap.Texture2D);
         }
 
         protected override void OnRender(FrameEventArgs e)
@@ -60,7 +72,13 @@ namespace WormsGL
             GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
             GL.End();
 
+<<<<<<< HEAD
+            QFont.Begin();
+            font.Print(string.Format("Mouse: x={0}, y={1}, z={2}", Mouse.X, Mouse.Y, Mouse.Wheel), new Vector2(10, 10));
+            QFont.End();
+=======
             
+>>>>>>> 2782bd12ce0981544eb3f4a46e2f3d65ade43cd4
         }
     }
 }
