@@ -12,7 +12,6 @@ namespace WormsGL
     {
         private QFont font;
         private float rotation = 0;
-        private Matrix4 projection;
 
         public WormsGame()
             : base("Worms", 800, 600, GraphicsMode.Default)
@@ -29,7 +28,7 @@ namespace WormsGL
             base.OnResize(e);
 
             // vytvoří projekční matici, která zarovná šířku a výšku na střed okna
-            projection = Matrix4.CreateOrthographic(Width, Height, -1f, 1f);
+            Matrix4 projection = Matrix4.CreateOrthographic(Width, Height, -1f, 1f);
             // nastaví mód pro projekti
             GL.MatrixMode(MatrixMode.Projection);
             // použije naš vzor projekce
@@ -75,18 +74,6 @@ namespace WormsGL
             GL.Color3(0f, 0f, 1f); GL.Vertex3(Width / 4, -Height / 4, 0);
             GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
             GL.End();
-
-            BeginPixelSystem(); // resetuje i matici (proto zde nefunguje rotace)
-
-            for (int i = 0; i < 1000; i++)
-            {
-                GL.Begin(BeginMode.Points);
-                GL.Color3(1f, 0f, 0f);
-                GL.Vertex2(300, 300);
-                GL.End();
-            }
-
-            EndPixelSystem();
 
             QFont.Begin();
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 10));

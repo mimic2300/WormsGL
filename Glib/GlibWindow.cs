@@ -187,8 +187,9 @@ namespace Glib
         {
             base.OnRenderFrame(e);
 
-            OnRenderBegin();
+            OnRenderBegin(e);
             OnRender(e);
+            OnRenderEnd(e);
 
             SwapBuffers(); // prohodí backBuffer a frontBuffer
         }
@@ -196,7 +197,8 @@ namespace Glib
         /// <summary>
         /// Před-vykreslení.
         /// </summary>
-        protected virtual void OnRenderBegin()
+        /// <param name="e"></param>
+        protected virtual void OnRenderBegin(FrameEventArgs e)
         {
             // vyčistí barevný buffer
             GL.Clear(ClearBufferMask.ColorBufferBit);
@@ -205,7 +207,8 @@ namespace Glib
         /// <summary>
         /// Po-vykreslení.
         /// </summary>
-        protected virtual void OnRenderEnds()
+        /// <param name="e"></param>
+        protected virtual void OnRenderEnd(FrameEventArgs e)
         {
         }
 

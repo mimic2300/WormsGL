@@ -10,7 +10,7 @@ namespace Glib
     public class FpsCounter
     {
         private Stopwatch fpsClock;
-        private double frames;
+        private double frames = 0;
         private double fps = 0;
 
         /// <summary>
