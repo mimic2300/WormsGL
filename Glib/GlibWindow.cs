@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using Glib.Input;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -14,6 +15,7 @@ namespace Glib
     {
         private string contentDirectory = Environment.CurrentDirectory;
         private bool containsWindowMouse = false;
+        private KeyboardInput keyboard;
 
         /// <summary>
         /// Konstruktor.
@@ -25,6 +27,8 @@ namespace Glib
         public GlibWindow(string title, int width, int height, GraphicsMode mode)
             : base(width, height, mode, title)
         {
+            keyboard = new KeyboardInput(this);
+
             Mouse.Move += new EventHandler<MouseMoveEventArgs>((o, e) => { OnMouseMove(e); });
             Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>((o, e) => { OnMouseButtonDown(e); });
             Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>((o, e) => { OnMouseButtonUp(e); });
@@ -45,6 +49,14 @@ namespace Glib
         public bool ContainsWindowMouse
         {
             get { return containsWindowMouse; }
+        }
+
+        /// <summary>
+        /// Vrací ovládání klávesnice.
+        /// </summary>
+        public KeyboardInput KeyInput
+        {
+            get { return keyboard; }
         }
 
         /// <summary>
