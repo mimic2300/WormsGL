@@ -81,7 +81,7 @@ namespace WormsGL
 
             Draw.Point(500, 500, Color4.Yellow);
 
-            Draw.FilledCircle(600, 600, 50, Color4.Green);
+            Draw.FilledEllipse(500, 100, 50, 80, Color4.Green);
             GL.PointSize(5);
 
             EndPixelSystem();

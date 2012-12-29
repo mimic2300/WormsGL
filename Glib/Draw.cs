@@ -170,5 +170,109 @@ namespace Glib
         }
 
         #endregion Circle
+
+        #region Ellipse
+
+        /// <summary>
+        /// Vykreslí elipsu.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radiusX">Poloměr X.</param>
+        /// <param name="radiusY">Poloměr Y.</param>
+        /// <param name="count">Počet bodů.</param>
+        /// <param name="color">Barva.</param>
+        public static void Ellipse(float x, float y, float radiusX, float radiusY, int count, Color4 color)
+        {
+            GL.Begin(BeginMode.LineLoop);
+            GL.Color4(color);
+
+            double angle = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                angle = i * 2 * Math.PI / 36;
+                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
+            }
+
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí elipsu.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radiusX">Poloměr X.</param>
+        /// <param name="radiusY">Poloměr Y.</param>
+        /// <param name="color">Barva.</param>
+        /// <remarks>Výchozí počet bodů je 36.</remarks>
+        public static void Circle(float x, float y, float radiusX, float radiusY, Color4 color)
+        {
+            GL.Begin(BeginMode.LineLoop);
+            GL.Color4(color);
+
+            double angle = 0;
+
+            for (int i = 0; i < 36; i++)
+            {
+                angle = i * 2 * Math.PI / 36;
+                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
+            }
+
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí vyplněnou elipsu.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radiusX">Poloměr X.</param>
+        /// <param name="radiusY">Poloměr Y.</param>
+        /// <param name="color">Barva.</param>
+        /// <remarks>Výchozí počet bodů je 36.</remarks>
+        public static void FilledEllipse(float x, float y, float radiusX, float radiusY, Color4 color)
+        {
+            GL.Begin(BeginMode.Polygon);
+            GL.Color4(color);
+
+            double angle = 0;
+
+            for (int i = 0; i < 36; i++)
+            {
+                angle = i * 2 * Math.PI / 36;
+                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
+            }
+
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí vyplněnou elipsu.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radiusX">Poloměr X.</param>
+        /// <param name="radiusY">Poloměr Y.</param>
+        /// <param name="count">Počet bodů.</param>
+        /// <param name="color">Barva.</param>
+        public static void FilledEllipse(float x, float y, float radiusX, float radiusY, int count, Color4 color)
+        {
+            GL.Begin(BeginMode.Polygon);
+            GL.Color4(color);
+
+            double angle = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                angle = i * 2 * Math.PI / 36;
+                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
+            }
+
+            GL.End();
+        }
+
+        #endregion Ellipse
     }
 }
