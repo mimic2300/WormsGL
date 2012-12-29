@@ -121,6 +121,54 @@ namespace Glib
             GL.End();
         }
 
+        /// <summary>
+        /// Vykreslí kruh.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radius">Poloměr.</param>
+        /// <param name="color">Barva.</param>
+        /// <remarks>Výchozí počet bodů je 36.</remarks>
+        public static void FilledCircle(float x, float y, float radius, Color4 color)
+        {
+            GL.Begin(BeginMode.Polygon);
+            GL.Color4(color);
+
+            double angle = 0;
+
+            for (int i = 0; i < 36; i++)
+            {
+                angle = i * 2 * Math.PI / 36;
+                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
+            }
+
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí kruh.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radius">Poloměr.</param>
+        /// <param name="count">Počet bodů.</param>
+        /// <param name="color">Barva.</param>
+        public static void FilledCircle(float x, float y, float radius, int count, Color4 color)
+        {
+            GL.Begin(BeginMode.Polygon);
+            GL.Color4(color);
+
+            double angle = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                angle = i * 2 * Math.PI / 36;
+                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
+            }
+
+            GL.End();
+        }
+
         #endregion Circle
     }
 }
