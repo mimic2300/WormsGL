@@ -2,8 +2,8 @@
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 using QuickFont;
-using System;
 using System.IO;
 
 namespace WormsGL
@@ -41,6 +41,9 @@ namespace WormsGL
 
             // čtverec se otočí o 90° za sekundu
             rotation += (float)e.Time * 90;
+
+            if (rotation > 360)
+                rotation = 0;
         }
 
         protected override void OnPreRender()
@@ -67,7 +70,11 @@ namespace WormsGL
             GL.End();
 
             QFont.Begin();
-            font.Print(string.Format("Mouse: x={0}, y={1}, z={2}", Mouse.X, Mouse.Y, Mouse.Wheel), new Vector2(10, 10));
+            font.Print(string.Format("Mouse: x={0}, y={1}, z={2} | Delta: x={3}, y={4} | ContainsMouse: {5}",
+                Mouse.X, Mouse.Y, Mouse.Wheel, Mouse.XDelta, Mouse.YDelta, ContainsWindowMouse), new Vector2(10, 10));
+            font.Print(string.Format("Keyboard: {0}", Keyboard.NumberOfFunctionKeys), new Vector2(10, 30));
+            font.Print(string.Format("Delta: {0}", e.Time.ToString("F3")), new Vector2(10, 50));
+            font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 70));
             QFont.End();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 using System;
 using System.IO;
 
@@ -12,6 +13,7 @@ namespace Glib
     public abstract class GlibWindow : GameWindow
     {
         private string contentDirectory = Environment.CurrentDirectory;
+        private bool containsWindowMouse = false;
 
         /// <summary>
         /// Konstruktor.
@@ -23,6 +25,9 @@ namespace Glib
         public GlibWindow(string title, int width, int height, GraphicsMode mode)
             : base(width, height, mode, title)
         {
+            Mouse.Move += new EventHandler<MouseMoveEventArgs>((o, e) => { OnMouseMove(e); });
+            Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>((o, e) => { OnMouseButtonDown(e); });
+            Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>((o, e) => { OnMouseButtonUp(e); });
         }
 
         /// <summary>
@@ -32,6 +37,14 @@ namespace Glib
         {
             get { return contentDirectory; }
             set { contentDirectory = Path.Combine(Environment.CurrentDirectory, value); }
+        }
+
+        /// <summary>
+        /// Pokud se myš bude nacházet v okně.
+        /// </summary>
+        public bool ContainsWindowMouse
+        {
+            get { return containsWindowMouse; }
         }
 
         /// <summary>
@@ -117,5 +130,51 @@ namespace Glib
         /// </summary>
         /// <param name="e"></param>
         protected abstract void OnRender(FrameEventArgs e);
+
+        /// <summary>
+        /// Pohyb myši.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnMouseMove(MouseMoveEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Stiskne se tlačítko myši.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Uvolní se tlačítko myši.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnMouseButtonUp(MouseButtonEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Myš se bude nacházet v okně.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+
+            containsWindowMouse = true;
+        }
+
+        /// <summary>
+        /// Myš se bude nacházet mimo okno.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+
+            containsWindowMouse = false;
+        }
     }
 }
