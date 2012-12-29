@@ -80,6 +80,8 @@ namespace WormsGL
             Draw.Rectangle(400, 400, 25, 25, Color4.Red);
 
             Draw.Point(500, 500, Color4.Yellow);
+
+            Draw.FilledCircle(600, 600, 50, Color4.Green);
             GL.PointSize(5);
 
             EndPixelSystem();
