@@ -6,9 +6,8 @@ namespace Glib
     /// <summary>
     /// Výpočet FPS.
     /// </summary>
-    public class FpsCounter
+    public class FpsCounter : Stopwatch
     {
-        private Stopwatch fpsClock;
         private double frames = 0;
         private double fps = 0;
 
@@ -18,8 +17,6 @@ namespace Glib
         /// <param name="window">Herní okno.</param>
         public FpsCounter(GlibWindow window)
         {
-            fpsClock = new Stopwatch();
-
             window.UpdateFrame += UpdateFrame;
             window.Load += (sender, e) => { Start(); };
         }
@@ -33,30 +30,6 @@ namespace Glib
         }
 
         /// <summary>
-        /// Stav stopek.
-        /// </summary>
-        public bool IsRunning
-        {
-            get { return fpsClock.IsRunning; }
-        }
-
-        /// <summary>
-        /// Spustí stopky.
-        /// </summary>
-        public void Start()
-        {
-            fpsClock.Start();
-        }
-
-        /// <summary>
-        /// Zastaví stopky.
-        /// </summary>
-        public void Stop()
-        {
-            fpsClock.Stop();
-        }
-
-        /// <summary>
         /// Aktualizace herního okna.
         /// </summary>
         /// <param name="sender"></param>
@@ -65,11 +38,11 @@ namespace Glib
         {
             frames++;
 
-            if (fpsClock.ElapsedMilliseconds > 1000)
+            if (ElapsedMilliseconds > 1000)
             {
-                fps = frames * 1000 / fpsClock.ElapsedMilliseconds;
+                fps = frames * 1000 / ElapsedMilliseconds;
                 frames = 0;
-                fpsClock.Restart();
+                Restart();
             }
         }
     }

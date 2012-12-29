@@ -79,7 +79,7 @@ namespace Glib
         /// </summary>
         public TimeSpan TimeElapsed
         {
-            get { return gameTime.TimeElapsed; }
+            get { return gameTime.Elapsed; }
         }
 
         /// <summary>
@@ -132,6 +132,7 @@ namespace Glib
             GL.MatrixMode(MatrixMode.Projection);
             GL.PushMatrix();
             GL.LoadIdentity();
+
             GL.Ortho(X, Width, Height, Y, -1.0, 1.0);
 
             GL.MatrixMode(MatrixMode.Modelview);
@@ -212,6 +213,8 @@ namespace Glib
         {
             // vyčistí barevný buffer
             GL.Clear(ClearBufferMask.ColorBufferBit);
+
+            BeginPixelSystem();
         }
 
         /// <summary>
@@ -220,6 +223,7 @@ namespace Glib
         /// <param name="e"></param>
         protected virtual void OnRenderEnd(FrameEventArgs e)
         {
+            EndPixelSystem();
         }
 
         /// <summary>
@@ -235,6 +239,7 @@ namespace Glib
         {
             base.Dispose();
 
+            fpsCounter.Stop();
             gameTime.Stop();
         }
 

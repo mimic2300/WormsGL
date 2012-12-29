@@ -1,5 +1,4 @@
 ﻿using OpenTK.Input;
-using System;
 using System.Drawing;
 
 namespace Glib.Input
@@ -23,12 +22,12 @@ namespace Glib.Input
         public MouseInput(GlibWindow window)
             : base(window)
         {
-            window.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>((o, e) => { MouseDown(e); });
-            window.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>((o, e) => { MouseUp(e); });
-            window.Mouse.Move += new EventHandler<MouseMoveEventArgs>((o, e) => { MouseMove(e); });
+            window.Mouse.ButtonDown += (o, e) => { MouseDown(e); };
+            window.Mouse.ButtonUp += (o, e) => { MouseUp(e); };
+            window.Mouse.Move += (o, e) => { MouseMove(e); };
 
-            window.MouseEnter += new EventHandler<EventArgs>((o, e) => { containsMouse = true; });
-            window.MouseLeave += new EventHandler<EventArgs>((o, e) => { containsMouse = false; });
+            window.MouseEnter += (o, e) => { containsMouse = true; };
+            window.MouseLeave += (o, e) => { containsMouse = false; };
         }
 
         /// <summary>

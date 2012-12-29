@@ -51,7 +51,7 @@ namespace Glib
         #region Rectangle
 
         /// <summary>
-        /// Vykreslí čtverec.
+        /// Vykreslí obdelník.
         /// </summary>
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
@@ -59,6 +59,25 @@ namespace Glib
         /// <param name="heigth">Výška.</param>
         /// <param name="color">Barva.</param>
         public static void Rectangle(float x, float y, float width, float heigth, Color4 color)
+        {
+            GL.Begin(BeginMode.LineLoop);
+            GL.Color4(color);
+            GL.Vertex2(x, y);
+            GL.Vertex2(x, y + heigth);
+            GL.Vertex2(x + width, y + heigth);
+            GL.Vertex2(x + width, y);
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí vyplněný obdelník.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="heigth">Výška.</param>
+        /// <param name="color">Barva.</param>
+        public static void FilledRectangle(float x, float y, float width, float heigth, Color4 color)
         {
             GL.Begin(BeginMode.Quads);
             GL.Color4(color);
@@ -93,7 +112,6 @@ namespace Glib
                 angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
-
             GL.End();
         }
 
@@ -118,12 +136,11 @@ namespace Glib
                 angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
-
             GL.End();
         }
 
         /// <summary>
-        /// Vykreslí kruh.
+        /// Vykreslí vyplněný kruh.
         /// </summary>
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
@@ -143,12 +160,11 @@ namespace Glib
                 angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
-
             GL.End();
         }
 
         /// <summary>
-        /// Vykreslí kruh.
+        /// Vykreslí vyplněný kruh.
         /// </summary>
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
@@ -167,7 +183,6 @@ namespace Glib
                 angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
-
             GL.End();
         }
 
@@ -196,7 +211,6 @@ namespace Glib
                 angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
             }
-
             GL.End();
         }
 
@@ -209,7 +223,7 @@ namespace Glib
         /// <param name="radiusY">Poloměr Y.</param>
         /// <param name="color">Barva.</param>
         /// <remarks>Výchozí počet bodů je 36.</remarks>
-        public static void Circle(float x, float y, float radiusX, float radiusY, Color4 color)
+        public static void Ellipse(float x, float y, float radiusX, float radiusY, Color4 color)
         {
             GL.Begin(BeginMode.LineLoop);
             GL.Color4(color);
@@ -222,7 +236,6 @@ namespace Glib
                 angle = i * 2 * Math.PI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
             }
-
             GL.End();
         }
 
@@ -278,5 +291,45 @@ namespace Glib
         }
 
         #endregion Ellipse
+
+        #region Triangle
+
+        /// <summary>
+        /// Vykreslí trojúhelník.
+        /// </summary>
+        /// <param name="cx">Pozice bodu C (vrcholu) na ose X.</param>
+        /// <param name="cy">Pozice bodu C (vrcholu) na ose Y.</param>
+        /// <param name="baseSize">Délka podstavce (od vrcholu A do B).</param>
+        /// <param name="v">Výška.</param>
+        /// <param name="color">Barva.</param>
+        public static void Triangle(float cx, float cy, float baseSize, float v, Color4 color)
+        {
+            GL.Begin(BeginMode.LineLoop);
+            GL.Color4(color);
+            GL.Vertex2(cx, cy);
+            GL.Vertex2(cx - baseSize / 2, cy + v);
+            GL.Vertex2(cx + baseSize / 2, cy + v);
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí vyplněný trojúhelník.
+        /// </summary>
+        /// <param name="cx">Pozice bodu C (vrcholu) na ose X.</param>
+        /// <param name="cy">Pozice bodu C (vrcholu) na ose Y.</param>
+        /// <param name="baseSize">Délka podstavce (od vrcholu A do B).</param>
+        /// <param name="v">Výška.</param>
+        /// <param name="color">Barva.</param>
+        public static void FilledTriangle(float cx, float cy, float baseSize, float v, Color4 color)
+        {
+            GL.Begin(BeginMode.TriangleStrip);
+            GL.Color4(color);
+            GL.Vertex2(cx, cy);
+            GL.Vertex2(cx - baseSize / 2, cy + v);
+            GL.Vertex2(cx + baseSize / 2, cy + v);
+            GL.End();
+        }
+
+        #endregion Triangle
     }
 }

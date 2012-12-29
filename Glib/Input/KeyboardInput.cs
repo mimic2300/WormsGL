@@ -1,5 +1,4 @@
 ﻿using OpenTK.Input;
-using System;
 using System.Collections.Generic;
 
 namespace Glib.Input
@@ -20,8 +19,8 @@ namespace Glib.Input
         {
             keys = new List<OpenTK.Input.Key>();
 
-            window.Keyboard.KeyDown += new EventHandler<KeyboardKeyEventArgs>((o, e) => { KeyDown(e); });
-            window.Keyboard.KeyUp += new EventHandler<KeyboardKeyEventArgs>((o, e) => { KeyUp(e); });
+            window.Keyboard.KeyDown += (o, e) => { KeyDown(e); };
+            window.Keyboard.KeyUp += (o, e) => { KeyUp(e); };
         }
 
         /// <summary>
