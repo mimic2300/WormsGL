@@ -46,8 +46,11 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fps.cs" />
     <Compile Include="GlibWindow.cs" />
+    <Compile Include="Input\GlibInput.cs" />
     <Compile Include="Input\KeyboardInput.cs" />
+    <Compile Include="Input\MouseInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

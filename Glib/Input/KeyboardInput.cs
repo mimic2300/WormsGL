@@ -7,7 +7,7 @@ namespace Glib.Input
     /// <summary>
     /// Obsluhuje ovládání klávesnice.
     /// </summary>
-    public class KeyboardInput
+    public class KeyboardInput : GlibInput
     {
         private List<Key> keys;
 
@@ -16,6 +16,7 @@ namespace Glib.Input
         /// </summary>
         /// <param name="window">Herní okno.</param>
         public KeyboardInput(GlibWindow window)
+            : base(window)
         {
             keys = new List<OpenTK.Input.Key>();
 

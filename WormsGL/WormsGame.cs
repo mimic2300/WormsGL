@@ -19,6 +19,8 @@ namespace WormsGL
             // adresář pro herní obsah
             Content = "Content";
             font = new QFont(Path.Combine(Content, "Comfortaa-Regular.ttf"), 16f);
+
+            VSync = VSyncMode.Off;
         }
 
         protected override void OnResize(System.EventArgs e)
@@ -73,11 +75,11 @@ namespace WormsGL
             GL.End();
 
             QFont.Begin();
-            font.Print(string.Format("Mouse: x={0}, y={1}, z={2} | Delta: x={3}, y={4} | ContainsMouse: {5}",
-                Mouse.X, Mouse.Y, Mouse.Wheel, Mouse.XDelta, Mouse.YDelta, ContainsWindowMouse), new Vector2(10, 10));
-            font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 30));
-            font.Print(string.Format("Delta: {0}", e.Time.ToString("F3")), new Vector2(10, 50));
-            font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 70));
+            font.Print(string.Format("FPS: {0}", FPS), new Vector2(10, 10));
+            font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 30));
+            font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 50));
+            font.Print(string.Format("Delta: {0}", e.Time.ToString("F3")), new Vector2(10, 70));
+            font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 90));
             QFont.End();
         }
     }
