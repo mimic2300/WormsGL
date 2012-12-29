@@ -16,6 +16,7 @@ namespace Glib
         private KeyboardInput keyboard;
         private MouseInput mouse;
         private FpsCounter fpsCounter;
+        private GameTime gameTime;
         private bool begin = false;
 
         #region Konstruktory
@@ -33,6 +34,7 @@ namespace Glib
             keyboard = new KeyboardInput(this);
             mouse = new MouseInput(this);
             fpsCounter = new FpsCounter(this);
+            gameTime = new GameTime(this);
         }
 
         #endregion Konstruktory
@@ -70,6 +72,14 @@ namespace Glib
         public double FPS
         {
             get { return fpsCounter.FPS; }
+        }
+
+        /// <summary>
+        /// Čas, který uběhnul od zapnutí hry.
+        /// </summary>
+        public TimeSpan TimeElapsed
+        {
+            get { return gameTime.TimeElapsed; }
         }
 
         /// <summary>

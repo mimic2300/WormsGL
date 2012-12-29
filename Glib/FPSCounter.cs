@@ -22,7 +22,7 @@ namespace Glib
             fpsClock = new Stopwatch();
 
             window.UpdateFrame += UpdateFrame;
-            window.Load += new EventHandler<EventArgs>((o, e) => { Start(); });
+            window.Load += (sender, e) => { Start(); };
         }
 
         /// <summary>
