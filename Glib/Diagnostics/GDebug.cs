@@ -14,25 +14,24 @@ namespace Glib.Diagnostics
         private List<GDebugItem> items = new List<GDebugItem>();
         private GlibWindow window;
         private QFont qFont;
-        private Vector2 position;
-        private int offsetY;
         private Font font;
+        private bool enabled = false;
 
         /// <summary>
         /// Konstruktor.
         /// </summary>
         /// <param name="window">Herní okno.</param>
+        /// <param name="font">Font.</param>
         public GDebug(GlibWindow window, Font font)
         {
             this.window = window;
 
-            this.font = font;
-            qFont = new QFont(font);
+            Font = font;
+            qFont = new QFont(Font);
 
-            position = new Vector2(10, 10);
-            offsetY = 20;
-
-            window.RenderEnd += RenderEnd;
+            Position = new Vector2(10, 10);
+            OffsetY = 20;
+            Enabled = true;
         }
 
         /// <summary>
@@ -49,8 +48,8 @@ namespace Glib.Diagnostics
         /// </summary>
         public Vector2 Position
         {
-            get { return position; }
-            set { position = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -58,8 +57,35 @@ namespace Glib.Diagnostics
         /// </summary>
         public int OffsetY
         {
-            get { return offsetY; }
-            set { offsetY = value; }
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Zapne nebo vypne zobrazování Debug informací.
+        /// </summary>
+        public bool Enabled
+        {
+            get
+            {
+                return enabled;
+            }
+            set
+            {
+                if (value == enabled)
+                    return;
+
+                enabled = value;
+
+                if (enabled)
+                {
+                    window.RenderEnd += RenderEnd;
+                }
+                else
+                {
+                    window.RenderEnd -= RenderEnd;
+                }
+            }
         }
 
         /// <summary>
@@ -118,7 +144,7 @@ namespace Glib.Diagnostics
                 }
 
                 qFont.Print(string.Format(item.FormatedText, args), new Vector2(Position.X, y));
-                y += offsetY;
+                y += OffsetY;
             }
         }
     }
