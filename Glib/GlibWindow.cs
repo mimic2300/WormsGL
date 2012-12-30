@@ -55,11 +55,16 @@ namespace Glib
 
             debug.FontColor = Color.LimeGreen;
             debug.Add(
+                new DebugItem("FPS: {0}", FPS, DebugType.Fps),
+                new DebugItem("Delta: {0}", DeltaTime, DebugType.DeltaTime));
+            /*
+            debug.Add(
                 string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed),
                 string.Format("FPS: {0}", FPS.ToString("#")),
                 string.Format("Delta: {0}", DeltaTime.ToString("F6")),
                 string.Format("Mouse: {0}", MouseInput),
                 string.Format("Keyboard: {0}", KeyInput));
+             */
         }
 
         /// <summary>

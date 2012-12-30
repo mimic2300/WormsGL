@@ -6,12 +6,41 @@ using System.Drawing;
 
 namespace Glib
 {
+    public enum DebugType : byte
+    {
+        None = 0,
+        Fps,
+        DeltaTime
+    }
+
+    public class DebugItem
+    {
+        public string FormatedText;
+        public object Value;
+        public DebugType Type;
+
+        public DebugItem(string formatedText, object value, DebugType type)
+        {
+            FormatedText = formatedText;
+            Value = value;
+            Type = type;
+        }
+
+        public DebugItem(string formatedText, object value)
+        {
+            FormatedText = formatedText;
+            Value = value;
+            Type = DebugType.None;
+        }
+    }
+
     /// <summary>
     /// Vypisuje na okno základní informace.
     /// </summary>
     public class Debug
     {
-        private LinkedList<string> texts = new LinkedList<string>();
+        private List<DebugItem> items = new List<DebugItem>();
+        private GlibWindow window;
         private QFont font;
 
         private Vector2 startPosition { get; set; }
@@ -22,8 +51,9 @@ namespace Glib
         /// <param name="window">Herní okno.</param>
         public Debug(GlibWindow window)
         {
-            font = new QFont(new Font(window.GlibFont, 13f));
+            this.window = window;
 
+            font = new QFont(new Font(window.GlibFont, 13f));
             startPosition = new Vector2(10, 10);
 
             window.RenderEnd += RenderEnd;
@@ -39,35 +69,43 @@ namespace Glib
         }
 
         /// <summary>
-        /// Přidá texty do listu.
+        /// Přidá položky do listu.
         /// </summary>
-        /// <param name="texts">Texty.</param>
-        public void Add(params string[] texts)
+        /// <param name="items">Položky.</param>
+        public void Add(params DebugItem[] items)
         {
-            for (int i = 0; i < texts.Length; i++)
-            {
-                this.texts.AddLast(texts[i]);
-            }
+            this.items.AddRange(items);
         }
 
         /// <summary>
-        /// Odebere všechny texty.
+        /// Odebere všechny položky.
         /// </summary>
         public void Clear()
         {
-            texts.Clear();
+            items.Clear();
         }
 
         /// <summary>
-        /// Vykreslí texty na okno jako poslední.
+        /// Vykreslí položky na okno jako poslední.
         /// </summary>
         private void RenderEnd()
         {
             float y = startPosition.Y;
 
-            foreach (string str in texts)
+            foreach (DebugItem item in items)
             {
-                font.Print(str, new Vector2(startPosition.X, y));
+                switch (item.Type)
+                {
+                    case DebugType.Fps:
+                        item.Value = window.FPS.ToString("#");
+                        break;
+
+                    case DebugType.DeltaTime:
+                        item.Value = window.DeltaTime.ToString("F6");
+                        break;
+                }
+
+                font.Print(string.Format(item.FormatedText, item.Value), new Vector2(startPosition.X, y));
                 y += 20;
             }
         }
