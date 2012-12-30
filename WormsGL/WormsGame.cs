@@ -47,7 +47,8 @@ namespace WormsGL
             };
             customDebug.Add(
                 new GDebugItem("Rotation: {0}", () => rotation.ToString("#")),
-                new GDebugItem("VSync (A): {0}", () => pressed));
+                new GDebugItem("VSync (A): {0}", () => pressed),
+                new GDebugItem("Test: {0}{1}{2}", () => 1, () => 2, () => 3));
         }
 
         protected override void OnLoad(EventArgs e)

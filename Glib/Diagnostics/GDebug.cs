@@ -12,6 +12,7 @@ namespace Glib.Diagnostics
     public class GDebug
     {
         private List<GDebugItem> items = new List<GDebugItem>();
+        private List<object> buffer = new List<object>();
         private GlibWindow window;
         private QFont qFont;
         private Font font;
@@ -123,14 +124,14 @@ namespace Glib.Diagnostics
 
             foreach (GDebugItem item in items)
             {
-                object[] args = new object[item.Value.Length];
-
+                // aktualizuje informace před vykreslením
                 for (int i = 0; i < item.Value.Length; i++)
                 {
-                    args[i] = item.Value[i]();
+                    buffer.Add(item.Value[i]());
                 }
 
-                qFont.Print(string.Format(item.FormatedText, args), new Vector2(Position.X, y));
+                qFont.Print(string.Format(item.FormatedText, buffer.ToArray()), new Vector2(Position.X, y));
+                buffer.Clear();
                 y += OffsetY;
             }
         }
