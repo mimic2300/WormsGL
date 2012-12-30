@@ -61,17 +61,17 @@ namespace Glib.Input
         }
 
         /// <summary>
-        /// Pokud se jednou stiskne klávesa.
+        /// Pokud se stiskla klávesa (detekuje pouze první stisk).
         /// </summary>
         /// <param name="key">Klávesa.</param>
-        /// <returns>Vrací true, pokud je se stiskla.</returns>
+        /// <returns>Vrací true, pokud se klávesa stiskla.</returns>
         public bool IsKeyPress(Key key)
         {
             if (pressedKey == key)
             {
-                bool value = pressedKey.HasValue;
+                bool pressed = pressedKey.HasValue;
                 pressedKey = null;
-                return value;
+                return pressed;
             }
             return false;
         }
