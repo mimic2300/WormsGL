@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics;
+﻿using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System;
 
@@ -505,5 +506,36 @@ namespace Glib
         }
 
         #endregion Letters
+
+        #region Texture
+
+        /// <summary>
+        /// Vykreslí 2D texturu.
+        /// </summary>
+        /// <param name="texturePointer">Ukazatel na texturu.</param>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        /// <param name="alpha">Průhlednost (default = 255)</param>
+        public static void Texture2D(int texturePointer, float x, float y, float width, float height, byte alpha = 255)
+        {
+            GL.Enable(EnableCap.Texture2D);
+
+            GL.BindTexture(TextureTarget.Texture2D, texturePointer);
+            GL.Begin(BeginMode.Quads);
+
+            GL.Color4(new Color4(255, 255, 255, alpha));
+            GL.TexCoord2(new Vector2(0, 0)); GL.Vertex2(x, y);
+            GL.TexCoord2(new Vector2(0, 1)); GL.Vertex2(x, y + height);
+            GL.TexCoord2(new Vector2(1, 1)); GL.Vertex2(x + width, y + height);
+            GL.TexCoord2(new Vector2(1, 0)); GL.Vertex2(x + width, y);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.End();
+            GL.Disable(EnableCap.Texture2D);
+        }
+
+        #endregion Texture
     }
 }

@@ -14,7 +14,8 @@ namespace WormsGL
         private QFont font;
         private Color4 color = Color4.Orange;
         private float rotation = 0;
-        private int textureId = 0;
+        private int imageTextureId = 0;
+        private int carTextureId = 0;
         private bool pressed = false;
 
         public WormsGame()
@@ -33,7 +34,8 @@ namespace WormsGL
         {
             base.OnLoad(e);
 
-            textureId = Util.Texture(Path.Combine(Content, "image.png"));
+            imageTextureId = Util.Texture(Path.Combine(Content, "image.png"));
+            carTextureId = Util.Texture(Path.Combine(Content, "car.bmp"));
         }
 
         protected override void OnResize(System.EventArgs e)
@@ -124,20 +126,10 @@ namespace WormsGL
             Draw.I(635, 30, Color4.White);
 
             //=========================================================
-            GL.Enable(EnableCap.Texture2D);
+            
+            Draw.Texture2D(imageTextureId, 100, 100, 30, 30);
+            Draw.Texture2D(carTextureId, 0, 0, 100, 100, 100);
 
-            GL.BindTexture(TextureTarget.Texture2D, textureId);
-            GL.Begin(BeginMode.Quads);
-
-            GL.Color4(new Color4(255, 255, 255, 100));
-            GL.TexCoord2(new Vector2(0, 0)); GL.Vertex3(0, 0, 0);
-            GL.TexCoord2(new Vector2(0, 1)); GL.Vertex3(0, 100, 0);
-            GL.TexCoord2(new Vector2(1, 1)); GL.Vertex3(100, 100, 0);
-            GL.TexCoord2(new Vector2(1, 0)); GL.Vertex3(100, 0, 0);
-
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-            GL.End();
-            GL.Disable(EnableCap.Texture2D); // opet se vypne kvuli kresleni
             //=========================================================
 
             int offset = 270;
