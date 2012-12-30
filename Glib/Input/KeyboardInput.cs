@@ -67,7 +67,7 @@ namespace Glib.Input
         /// <returns>Vrací true, pokud se klávesa stiskla.</returns>
         public bool IsKeyPress(Key key)
         {
-            if (pressedKey == key)
+            if (pressedKey == key && keys.Count == 1)
             {
                 bool pressed = pressedKey.HasValue;
                 pressedKey = null;
