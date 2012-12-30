@@ -4,7 +4,7 @@ using QuickFont;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Glib.GDebug
+namespace Glib.Diagnostics
 {
 	/// <summary>
 	/// Vypisuje na okno základní informace.

@@ -47,8 +47,8 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GDebug\GDebug.cs" />
-    <Compile Include="GDebug\GDebugItem.cs" />
+    <Compile Include="Diagnostics\GDebug.cs" />
+    <Compile Include="Diagnostics\GDebugItem.cs" />
     <Compile Include="Draw.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="GameTime.cs" />
