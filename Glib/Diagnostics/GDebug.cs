@@ -27,10 +27,8 @@ namespace Glib.Diagnostics
             this.window = window;
 
             Font = font;
-            qFont = new QFont(Font);
-
             Position = new Vector2(10, 10);
-            OffsetY = 20;
+            OffsetY = 20f;
             Enabled = true;
         }
 
@@ -39,37 +37,26 @@ namespace Glib.Diagnostics
         /// </summary>
         /// <param name="window">Herní okno.</param>
         public GDebug(GlibWindow window)
-            : this(window, new Font(window.GlibFont, 13f))
+            : this(window, null)
         {
         }
 
         /// <summary>
         /// Nastaví pozici, ze které začíná vykreslování informací.
         /// </summary>
-        public Vector2 Position
-        {
-            get;
-            set;
-        }
+        public Vector2 Position { get; set; }
 
         /// <summary>
         /// Nastaví nebo získá mezeru na ose Y mezi dvěma informacemi.
         /// </summary>
-        public int OffsetY
-        {
-            get;
-            set;
-        }
+        public float OffsetY { get; set; }
 
         /// <summary>
         /// Zapne nebo vypne zobrazování Debug informací.
         /// </summary>
         public bool Enabled
         {
-            get
-            {
-                return enabled;
-            }
+            get { return enabled; }
             set
             {
                 if (value == enabled)
@@ -96,7 +83,7 @@ namespace Glib.Diagnostics
             get { return font; }
             set
             {
-                font = value;
+                font = (value == null) ? new Font(window.GlibFont, 13f) : value;
                 qFont = new QFont(font);
             }
         }

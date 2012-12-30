@@ -22,6 +22,7 @@ namespace WormsGL
         private ulong counter = 0;
         private bool dec = true;
         private bool pressed = false;
+        private GDebug customDebug;
 
         public WormsGame()
             : base("Worms", 1000, 600, GraphicsMode.Default)
@@ -37,12 +38,16 @@ namespace WormsGL
             VSync = VSyncMode.Off;
             CursorVisible = true;
 
-            Debug.Clear();
-            Debug.Add(
-                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")),
-                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")),
-                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")),
-                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")));
+            // vlastní debug vypis
+            customDebug = new GDebug(this, new Font(GlibFont, 18f))
+            {
+                FontColor = Color4.Red,
+                OffsetY = 25f,
+                Position = new Vector2(Width - 180, 10)
+            };
+            customDebug.Add(
+                new GDebugItem("Rotation: {0}", () => rotation.ToString("#")),
+                new GDebugItem("VSync (A): {0}", () => pressed));
         }
 
         protected override void OnLoad(EventArgs e)
@@ -82,9 +87,9 @@ namespace WormsGL
             // test KeyPress na písmeno "A"
             if (KeyInput.IsKeyPress(Key.A))
             {
-                base.Size = new Size(1920, 1080);
+                //base.Size = new Size(1920, 1080);
                 //base.WindowState = OpenTK.WindowState.Fullscreen;
-                base.VSync = VSyncMode.On;
+                base.VSync = !pressed ? VSyncMode.On : VSyncMode.Off;
 
                 pressed = !pressed;
             }
@@ -120,7 +125,7 @@ namespace WormsGL
             }
             counter++;
 
-            menu.Update();
+            //menu.Update();
         }
 
         protected override void OnRenderBegin(FrameEventArgs e)
@@ -171,7 +176,7 @@ namespace WormsGL
             Draw.Texture2D(texCar, 120, 0, 100, 100, Color4.Teal);
             Draw.Texture2D(texImage, 100, 120, 30, 30);
 
-            menu.Render();
+            //menu.Render();
 
             //int offset = 270;
             //font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));

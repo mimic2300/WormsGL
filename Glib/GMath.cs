@@ -49,7 +49,7 @@ namespace Glib
         public const float FourPI = PI * 4.0f;
 
         /// <summary>
-        /// Konstance půvky PI (PI / 2).
+        /// Konstance půlky PI (PI / 2).
         /// </summary>
         public const float HalfPI = PI / 2.0f;
 
