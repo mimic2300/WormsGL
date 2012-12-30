@@ -89,7 +89,7 @@ namespace WormsGL
             Draw.Line(Mouse.X, 0, Mouse.X, Height, Color4.DarkGray);
             Draw.Line(0, Mouse.Y, Width, Mouse.Y, Color4.DarkGray);
 
-            // testy
+            // testy - normal
             Draw.Line(200, 200, 400, 200, Color4.Red);
             Draw.Point(300, 300, Color4.Red);
             Draw.Rectangle(400, 400, 25, 25, Color4.Yellow);
@@ -100,15 +100,17 @@ namespace WormsGL
             Draw.Triangle(200, 200, 50, 50, Color4.PaleTurquoise);
             Draw.Pie(150, 150, 50, 50, 90, Color4.Lime);
             Draw.Spiral(250, 400, 8, GMath._14, Color4.Violet);
-            // testy
+            // testy - filled
             Draw.FilledRectangle(400, 400, 25, 25, Color4.Red);
             Draw.FilledCircle(500, 500, 50, Color4.Green);
             Draw.FilledTriangle(300, 200, 25, 25, Color4.PapayaWhip);
             Draw.FilledEllipse(500, 100, 50, 80, Color4.Green);
             Draw.FilledPie(250, 150, 50, 50, 90, Color4.LimeGreen);
-            // texty
+            // testy - wired
             Draw.WiredRectangle(10, 450, 50, 50, Color4.OrangeRed);
             Draw.WiredTriangle(40, 150, 50, 80, Color4.PaleGreen);
+            // testy - letters
+            Draw.H(600, 30, Color4.White);
 
             //=========================================================
             GL.Enable(EnableCap.Texture2D);

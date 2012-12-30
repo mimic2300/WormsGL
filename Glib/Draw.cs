@@ -10,9 +10,9 @@ namespace Glib
     public static class Draw
     {
         /// <summary>
-        /// Segmentace pro základní objekty jako kruh, kružnice, elipsa apod.
+        /// Segmentace pro všechny základní objekty jako kruh, kružnice, elipsa apod.
         /// </summary>
-        private const int Segmentation = 24;
+        public const int Segmentation = 24;
 
         #region Point
 
@@ -437,5 +437,40 @@ namespace Glib
         }
 
         #endregion Spiral
+
+        #region Letters
+
+        /// <summary>
+        /// Vykreslí písmeno H.
+        /// </summary>
+        /// <param name="x">Pozice horního levého rohu na ose X.</param>
+        /// <param name="y">Pozice horního levého rohu na ose Y.</param>
+        /// <param name="color">Barva.</param>
+        public static void H(float x, float y, Color4 color)
+        {
+            GL.Begin(BeginMode.LineLoop);
+            GL.Color4(color);
+
+            GL.Vertex2(x, y);
+            GL.Vertex2(x + 8, y);
+
+            GL.Vertex2(x + 8, y + 9);
+            GL.Vertex2(x + 16, y + 9);
+
+            GL.Vertex2(x + 16, y);
+            GL.Vertex2(x + 24, y);
+
+            GL.Vertex2(x + 24, y + 28);
+            GL.Vertex2(x + 16, y + 28);
+
+            GL.Vertex2(x + 16, y + 17);
+            GL.Vertex2(x + 8, y + 17);
+
+            GL.Vertex2(x + 8, y + 28);
+            GL.Vertex2(x, y + 28);
+            GL.End();
+        }
+
+        #endregion Letters
     }
 }
