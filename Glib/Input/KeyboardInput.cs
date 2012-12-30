@@ -9,6 +9,7 @@ namespace Glib.Input
     public class KeyboardInput : GlibInput
     {
         private List<Key> keys;
+        private Key? pressedKey;
 
         /// <summary>
         /// Konstruktor.
@@ -60,6 +61,22 @@ namespace Glib.Input
         }
 
         /// <summary>
+        /// Pokud se jednou stiskne klávesa.
+        /// </summary>
+        /// <param name="key">Klávesa.</param>
+        /// <returns>Vrací true, pokud je se stiskla.</returns>
+        public bool IsKeyPress(Key key)
+        {
+            if (pressedKey == key)
+            {
+                bool value = pressedKey.HasValue;
+                pressedKey = null;
+                return value;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Klávesa se stiskla.
         /// </summary>
         /// <param name="e"></param>
@@ -67,6 +84,9 @@ namespace Glib.Input
         {
             if (!keys.Contains(e.Key))
                 keys.Add(e.Key);
+
+            if (!pressedKey.HasValue)
+                pressedKey = e.Key;
         }
 
         /// <summary>
@@ -76,6 +96,7 @@ namespace Glib.Input
         private void KeyUp(KeyboardKeyEventArgs e)
         {
             keys.RemoveAll(key => { return (key == e.Key); });
+            pressedKey = null;
         }
 
         /// <summary>
