@@ -84,17 +84,13 @@ namespace Glib.Diagnostics
             get { return font; }
             set
             {
-                if (value == null)
+                if (font != null)
                 {
-                    if (font != null)
-                    {
-                        font.Dispose();
-                        qFont.Dispose();
-                    }
-                    font = new Font(window.GlibFont, 13f);
+                    font.Dispose();
+                    qFont.Dispose();
                 }
-                else font =  value;
 
+                font = (value == null) ? new Font(window.GlibFont, 13f) : value;
                 qFont = new QFont(font);
             }
         }
