@@ -18,8 +18,50 @@ namespace Glib
         private FpsCounter fpsCounter;
         private GameTime gameTime;
         private bool begin = false;
+        private float deltaTime = 0;
 
         #region Konstruktory
+
+        /// <summary>
+        /// Initializuje všechno potřebné pro herní okno.
+        /// </summary>
+        private void Init()
+        {
+            keyboard = new KeyboardInput(this);
+            mouse = new MouseInput(this);
+            fpsCounter = new FpsCounter(this);
+            gameTime = new GameTime(this);
+        }
+
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        public GlibWindow()
+        {
+        }
+
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        /// <param name="width">Šířka okna.</param>
+        /// <param name="height">Výška okna.</param>
+        public GlibWindow(int width, int height)
+            : base(width, height)
+        {
+            Init();
+        }
+
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        /// <param name="title">Titulek okna.</param>
+        /// <param name="width">Šířka okna.</param>
+        /// <param name="height">Výška okna.</param>
+        public GlibWindow(string title, int width, int height)
+            : base(width, height, GraphicsMode.Default, title)
+        {
+            Init();
+        }
 
         /// <summary>
         /// Konstruktor.
@@ -31,10 +73,36 @@ namespace Glib
         public GlibWindow(string title, int width, int height, GraphicsMode mode)
             : base(width, height, mode, title)
         {
-            keyboard = new KeyboardInput(this);
-            mouse = new MouseInput(this);
-            fpsCounter = new FpsCounter(this);
-            gameTime = new GameTime(this);
+            Init();
+        }
+
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        /// <param name="title">Titulek okna.</param>
+        /// <param name="width">Šířka okna.</param>
+        /// <param name="height">Výška okna.</param>
+        /// <param name="mode">Zobrazovací mód.</param>
+        /// <param name="flags">Další flagy okna.</param>
+        public GlibWindow(string title, int width, int height, GraphicsMode mode, GameWindowFlags flags)
+            : base(width, height, mode, title, flags)
+        {
+            Init();
+        }
+
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        /// <param name="title">Titulek okna.</param>
+        /// <param name="width">Šířka okna.</param>
+        /// <param name="height">Výška okna.</param>
+        /// <param name="mode">Zobrazovací mód.</param>
+        /// <param name="flags">Další flagy okna.</param>
+        /// <param name="device">Vykreslovací ovladač.</param>
+        public GlibWindow(string title, int width, int height, GraphicsMode mode, GameWindowFlags flags, DisplayDevice device)
+            : base(width, height, mode, title, flags, device)
+        {
+            Init();
         }
 
         #endregion Konstruktory
@@ -72,6 +140,14 @@ namespace Glib
         public double FPS
         {
             get { return fpsCounter.FPS; }
+        }
+
+        /// <summary>
+        /// Čas delta.
+        /// </summary>
+        public float DeltaTime
+        {
+            get { return deltaTime; }
         }
 
         /// <summary>
@@ -197,6 +273,8 @@ namespace Glib
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
+
+            deltaTime = (float)e.Time;
 
             OnRenderBegin(e);
             OnRender(e);
