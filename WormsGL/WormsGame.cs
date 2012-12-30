@@ -17,6 +17,8 @@ namespace WormsGL
         private int imageTextureId = 0;
         private int carTextureId = 0;
         private byte alpha = 255;
+        private ulong counter = 0;
+        private bool dec = true;
         private bool pressed = false;
 
         public WormsGame()
@@ -81,12 +83,24 @@ namespace WormsGL
                 color = GColor.RandomColor();
             }
 
-            alpha--;
-
-            if (alpha <= 0)
+            if (counter % 10 == 0)
             {
-                alpha = 255;
+                if (dec)
+                {
+                    alpha--;
+
+                    if (alpha == 0)
+                        dec = false;
+                }
+                else
+                {
+                    alpha++;
+
+                    if (alpha == 255)
+                        dec = true;
+                }
             }
+            counter++;
         }
 
         protected override void OnRenderBegin(FrameEventArgs e)
