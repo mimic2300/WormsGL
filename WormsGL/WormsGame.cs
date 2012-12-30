@@ -1,5 +1,5 @@
 ﻿using Glib;
-using Glib.Debug;
+using Glib.GDebug;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

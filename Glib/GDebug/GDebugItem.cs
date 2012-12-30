@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Glib.Debug
+namespace Glib.GDebug
 {
 	/// <summary>
 	/// Obsahuje jednu ladící informaci.
