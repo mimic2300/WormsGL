@@ -5,6 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using QuickFont;
 using System;
+using System.Drawing;
 using System.IO;
 
 namespace WormsGL
@@ -14,8 +15,8 @@ namespace WormsGL
         private QFont font;
         private Color4 color = Color4.Orange;
         private float rotation = 0;
-        private int imageTextureId = 0;
-        private int carTextureId = 0;
+        private Texture2D texImage;
+        private Texture2D texCar;
         private byte alpha = 255;
         private ulong counter = 0;
         private bool dec = true;
@@ -27,18 +28,18 @@ namespace WormsGL
             // adresář pro herní obsah
             Content = "Content";
 
-            font = new QFont(Path.Combine(Content, "Comfortaa-Regular.ttf"), 16f);
+            font = new QFont(new Font(GlibFont, 16f));
             font.Options.Colour = Color4.PaleGreen;
 
-            VSync = VSyncMode.On;
+            VSync = VSyncMode.Off;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            imageTextureId = Util.Texture(Path.Combine(Content, "image.png"));
-            carTextureId = Util.Texture(Path.Combine(Content, "car.bmp"));
+            texImage = LoadTexture("image.png");
+            texCar = LoadTexture("car.bmp");
         }
 
         protected override void OnResize(System.EventArgs e)
@@ -146,24 +147,22 @@ namespace WormsGL
             // testy - letters
             Draw.H(600, 30, Color4.White);
             Draw.I(635, 30, Color4.White);
-
-            //=========================================================
-
-            Draw.Texture2D(carTextureId, 0, 0, 100, 100, alpha);
-            Draw.Texture2D(carTextureId, 120, 0, 100, 100, Color4.Teal);
-            Draw.Texture2D(imageTextureId, 100, 120, 30, 30);
-
-            //=========================================================
+            // test - textůry
+            Draw.Texture2D(texCar, 0, 0, 100, 100, alpha);
+            Draw.Texture2D(texCar, 120, 0, 100, 100, Color4.Teal);
+            Draw.Texture2D(texImage, 100, 120, 30, 30);
 
             int offset = 270;
             font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30 + offset));
             font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50 + offset));
             font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 70 + offset));
-            font.Print(string.Format("Delta: {0}", DeltaTime.ToString("F3")), new Vector2(10, 90 + offset));
+            font.Print(string.Format("Delta: {0}", DeltaTime.ToString("F6")), new Vector2(10, 90 + offset));
             font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110 + offset));
             font.Print(string.Format("Pressed A: {0}", pressed), new Vector2(10, 130 + offset));
             font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
+
+            font.Print("ěščřžýáíé - 0123456789 - ďťňóůú - [](){}+-:._*&#@/\\?!<>;$~=| - abcdefghijklmnopqrstuvqxyz", new Vector2(10, Height - 30));
         }
     }
 }

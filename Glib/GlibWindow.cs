@@ -1,8 +1,10 @@
 ﻿using Glib.Input;
+using Glib.Properties;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System;
+using System.Drawing;
 using System.IO;
 
 namespace Glib
@@ -17,6 +19,7 @@ namespace Glib
         private MouseInput mouse;
         private FpsCounter fpsCounter;
         private GameTime gameTime;
+        private FontFamily glibDefaultFont;
         private bool begin = false;
         private float deltaTime = 0;
 
@@ -27,6 +30,8 @@ namespace Glib
         /// </summary>
         private void Init()
         {
+            glibDefaultFont = Util.LoadFontFamily(Resources.SVBasicManual);
+
             keyboard = new KeyboardInput(this);
             mouse = new MouseInput(this);
             fpsCounter = new FpsCounter(this);
@@ -38,6 +43,7 @@ namespace Glib
         /// </summary>
         public GlibWindow()
         {
+            Init();
         }
 
         /// <summary>
@@ -194,6 +200,14 @@ namespace Glib
             get { return ClientRectangle.Height; }
         }
 
+        /// <summary>
+        /// Nativní font z Glib API.
+        /// </summary>
+        public FontFamily GlibFont
+        {
+            get { return glibDefaultFont; }
+        }
+
         #endregion Vlastnosti
 
         #region Funkce
@@ -236,6 +250,16 @@ namespace Glib
                 GL.MatrixMode(MatrixMode.Modelview);
             }
             begin = false;
+        }
+
+        /// <summary>
+        /// Načte textůru z herního obsahu.
+        /// </summary>
+        /// <param name="filename">Název textůry.</param>
+        /// <returns>Vrací 2D textůru.</returns>
+        public Texture2D LoadTexture(string filename)
+        {
+            return Texture2D.Load(Path.Combine(Content, filename));
         }
 
         #endregion Funkce

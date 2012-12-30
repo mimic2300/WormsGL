@@ -426,14 +426,14 @@ namespace Glib
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="rotations">Počet rotací kolem středu.</param>
-        /// <param name="smooth">Úroveň vyhlazení (doporučuji 0.25f).</param>
+        /// <param name="epsilon">Úroveň vyhlazení (doporučuji 0.25f).</param>
         /// <param name="color">Barva.</param>
-        public static void Spiral(float x, float y, int rotations, float smooth, Color4 color)
+        public static void Spiral(float x, float y, int rotations, float epsilon, Color4 color)
         {
             GL.Begin(BeginMode.LineStrip);
             GL.Color4(color);
 
-            for (float i = 0; i < rotations * GMath.TwoPI; i += smooth)
+            for (float i = 0; i < rotations * GMath.TwoPI; i += epsilon)
             {
                 GL.Vertex2(
                     x + GMath.Sin(i) * i,
@@ -552,6 +552,34 @@ namespace Glib
         public static void Texture2D(int textureID, float x, float y, float width, float height, byte alpha = 255)
         {
             Texture2D(textureID, x, y, width, height, new Color4(255, 255, 255, alpha));
+        }
+
+        /// <summary>
+        /// Vykreslí 2D texturu.
+        /// </summary>
+        /// <param name="texture">2D textůra.</param>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        /// <param name="color">Barva textůry.</param>
+        public static void Texture2D(Texture2D texture, float x, float y, float width, float height, Color4 color)
+        {
+            Texture2D(texture.ID, x, y, width, height, color);
+        }
+
+        /// <summary>
+        /// Vykreslí 2D texturu.
+        /// </summary>
+        /// <param name="texture">2D textůra.</param>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        /// <param name="alpha">Průhlednost (default = 255)</param>
+        public static void Texture2D(Texture2D texture, float x, float y, float width, float height, byte alpha = 255)
+        {
+            Texture2D(texture.ID, x, y, width, height, new Color4(255, 255, 255, alpha));
         }
 
         #endregion Texture

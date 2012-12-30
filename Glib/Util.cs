@@ -1,19 +1,26 @@
-﻿using OpenTK.Graphics.OpenGL;
-using System;
+﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
+using System.Drawing.Text;
 
 namespace Glib
 {
     /// <summary>
-    /// Načítá herní obsah.
+    /// Pomocné funkce.
     /// </summary>
     public static class Util
     {
         private static readonly Random random = new Random(Environment.TickCount);
 
         /// <summary>
-        /// Vrátí náhodné číslo typu float od 0.0 do 1.0.
+        /// Generátor čísel.
+        /// </summary>
+        public static Random Rand
+        {
+            get { return random; }
+        }
+
+        /// <summary>
+        /// Vrátí náhodné číslo typu float od 0.000 do 1.000.
         /// </summary>
         public static float RandomFloat
         {
@@ -21,30 +28,31 @@ namespace Glib
         }
 
         /// <summary>
-        /// Vykreslí textůru.
+        /// Načte font ze zdrojů.
         /// </summary>
-        /// <param name="filename">Cesta k textůře.</param>
-        /// <returns>ID textůry.</returns>
-        public static int Texture(string filename)
+        /// <param name="fontResourceData">Dara fontu ze zdrojů.</param>
+        /// <param name="fontCollection">Výstupní kolekce fontů s novým fontem.</param>
+        /// <returns>Vrací FontFamily.</returns>
+        public static unsafe FontFamily LoadFontFamily(byte[] fontResourceData, out PrivateFontCollection fontCollection)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentException(filename);
+            fixed (byte* ptr = fontResourceData)
+            {
+                fontCollection = new PrivateFontCollection();
+                fontCollection.AddMemoryFont(new IntPtr(ptr), fontResourceData.Length);
+                return fontCollection.Families[0];
+            }
+        }
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
-
-            Bitmap bmp = new Bitmap(filename);
-            BitmapData bmpData = bmp.LockBits(
-                new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmpData.Width, bmpData.Height, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
-            bmp.UnlockBits(bmpData);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Nearest);
-
-            return id;
+        /// <summary>
+        /// Načte font ze zdrojů.
+        /// </summary>
+        /// <param name="fontResourceData">Dara fontu ze zdrojů.</param>
+        /// <returns>Vrací FontFamily.</returns>
+        public static FontFamily LoadFontFamily(byte[] fontResourceData)
+        {
+            PrivateFontCollection fontCollection;
+            FontFamily family = LoadFontFamily(fontResourceData, out fontCollection);
+            return family;
         }
     }
 }
