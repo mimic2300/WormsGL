@@ -79,7 +79,7 @@ namespace Glib
         /// <param name="color">Barva.</param>
         public static void FilledRectangle(float x, float y, float width, float heigth, Color4 color)
         {
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(BeginMode.Polygon);
             GL.Color4(color);
             GL.Vertex2(x, y);
             GL.Vertex2(x, y + heigth);
@@ -109,7 +109,7 @@ namespace Glib
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
             GL.End();
@@ -129,11 +129,11 @@ namespace Glib
             GL.Color4(color);
 
             double angle = 0;
-            const int count = 36;
+            const int count = 24;
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
             GL.End();
@@ -153,11 +153,11 @@ namespace Glib
             GL.Color4(color);
 
             double angle = 0;
-            const int count = 36;
+            const int count = 24;
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
             GL.End();
@@ -180,7 +180,7 @@ namespace Glib
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
             }
             GL.End();
@@ -208,7 +208,7 @@ namespace Glib
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
             }
             GL.End();
@@ -229,11 +229,11 @@ namespace Glib
             GL.Color4(color);
 
             double angle = 0;
-            const int count = 36;
+            const int count = 24;
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
             }
             GL.End();
@@ -254,14 +254,13 @@ namespace Glib
             GL.Color4(color);
 
             double angle = 0;
-            const int count = 36;
+            const int count = 24;
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
             }
-
             GL.End();
         }
 
@@ -283,10 +282,9 @@ namespace Glib
 
             for (int i = 0; i < count; i++)
             {
-                angle = i * 2 * Math.PI / count;
+                angle = i * GMath.TwoPI / count;
                 GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
             }
-
             GL.End();
         }
 
@@ -322,7 +320,7 @@ namespace Glib
         /// <param name="color">Barva.</param>
         public static void FilledTriangle(float cx, float cy, float baseSize, float v, Color4 color)
         {
-            GL.Begin(BeginMode.TriangleStrip);
+            GL.Begin(BeginMode.Polygon);
             GL.Color4(color);
             GL.Vertex2(cx, cy);
             GL.Vertex2(cx - baseSize / 2, cy + v);
@@ -331,5 +329,89 @@ namespace Glib
         }
 
         #endregion Triangle
+
+        #region Pie
+
+        /// <summary>
+        /// Vykreslí koláčový graf.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        /// <param name="angle">Úhel (jak velká část se má vykreslit).</param>
+        /// <param name="color">Barva.</param>
+        public static void Pie(float x, float y, float width, float height, int angle, Color4 color)
+        {
+            if (angle > 360)
+                angle = 360;
+
+            GL.Color4(color);
+            GL.Begin(BeginMode.LineLoop);
+            GL.Vertex2(x, y);
+
+            for (int i = 0; i <= angle; i += 2)
+            {
+                GL.Vertex2(
+                    x + (float)Math.Cos(i * GMath.PI_180) * width,
+                    y + (float)Math.Sin(i * GMath.PI_180) * height);
+            }
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí vyplněný koláčový graf.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        /// <param name="angle">Úhel (jak velká část se má vykreslit).</param>
+        /// <param name="color">Barva.</param>
+        public static void FilledPie(float x, float y, float width, float height, int angle, Color4 color)
+        {
+            if (angle > 360)
+                angle = 360;
+
+            GL.Color4(color);
+            GL.Begin(BeginMode.Polygon);
+            GL.Vertex2(x, y);
+
+            for (int i = 0; i <= angle; i += 2)
+            {
+                GL.Vertex2(
+                    x + (float)Math.Cos(i * GMath.PI_180) * width,
+                    y + (float)Math.Sin(i * GMath.PI_180) * height);
+            }
+            GL.End();
+        }
+
+        #endregion Pie
+
+        #region Spiral
+
+        /// <summary>
+        /// Vykreslí spirálu.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="rotations">Počet rotací kolem středu.</param>
+        /// <param name="smooth">Úroveň vyhlazení (doporučuji 0.25f).</param>
+        /// <param name="color">Barva.</param>
+        public static void Spiral(float x, float y, int rotations, float smooth, Color4 color)
+        {
+            GL.Begin(BeginMode.LineStrip);
+            GL.Color4(color);
+
+            for (float i = 0; i < rotations * GMath.TwoPI; i += smooth)
+            {
+                GL.Vertex2(
+                    x + (float)Math.Sin(i) * i,
+                    y + (float)Math.Cos(i) * i);
+            }
+            GL.End();
+        }
+
+        #endregion Spiral
     }
 }

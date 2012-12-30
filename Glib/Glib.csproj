@@ -49,7 +49,9 @@
     <Compile Include="Draw.cs" />
     <Compile Include="FpsCounter.cs" />
     <Compile Include="GameTime.cs" />
+    <Compile Include="GColor.cs" />
     <Compile Include="GlibWindow.cs" />
+    <Compile Include="GMath.cs" />
     <Compile Include="Input\GlibInput.cs" />
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\MouseInput.cs" />

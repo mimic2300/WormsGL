@@ -12,11 +12,12 @@ namespace WormsGL
     internal class WormsGame : GlibWindow
     {
         private QFont font;
+        private Color4 color = Color4.Orange;
         private float rotation = 0;
         private int textureId = 0;
 
         public WormsGame()
-            : base("Worms", 800, 600, GraphicsMode.Default)
+            : base("Worms", 1000, 600, GraphicsMode.Default)
         {
             // adresář pro herní obsah
             Content = "Content";
@@ -59,7 +60,13 @@ namespace WormsGL
             rotation += (float)e.Time * 90;
 
             if (rotation > 360)
+            {
                 rotation = 0;
+            }
+            else if ((int)rotation % 100 == 0)
+            {
+                color = GColor.RandomColor();
+            }
         }
 
         protected override void OnRenderBegin(FrameEventArgs e)
@@ -72,15 +79,11 @@ namespace WormsGL
 
         protected override void OnRender(FrameEventArgs e)
         {
-            /*
+            GL.PushMatrix();
+            GL.Translate(Width / 1.3f, Height / 2, 0);
             GL.Rotate(rotation, Vector3.UnitZ);
-            GL.Begin(BeginMode.Quads);
-            GL.Color3(1f, 0f, 0f); GL.Vertex3(-Width / 4, Height / 4, 0);
-            GL.Color3(0f, 1f, 0f); GL.Vertex3(-Width / 4, -Height / 4, 0);
-            GL.Color3(0f, 0f, 1f); GL.Vertex3(Width / 4, -Height / 4, 0);
-            GL.Color3(1f, 0f, 1f); GL.Vertex3(Width / 4, Height / 4, 0);
-            GL.End();
-             */
+            Draw.Spiral(0, 0, 36, 1.8f, color);
+            GL.PopMatrix();
 
             // vykreslení čar myši
             Draw.Line(Mouse.X, 0, Mouse.X, Height, Color4.DarkGray);
@@ -91,39 +94,42 @@ namespace WormsGL
             Draw.Point(300, 300, Color4.Red);
             Draw.Rectangle(400, 400, 25, 25, Color4.Yellow);
             Draw.Circle(300, 50, 25, Color4.Orchid);
+            Draw.Circle(380, 50, 25, 6, Color4.Orchid);
             Draw.Ellipse(200, 500, 100, 50, Color4.Pink);
+            Draw.Ellipse(220, 500, 60, 25, 6, Color4.Pink);
             Draw.Triangle(200, 200, 50, 50, Color4.PaleTurquoise);
+            Draw.Pie(150, 150, 50, 50, 90, Color4.Lime);
+            Draw.Spiral(250, 400, 8, GMath._14, Color4.Violet);
             // testy
             Draw.FilledRectangle(400, 400, 25, 25, Color4.Red);
             Draw.FilledCircle(500, 500, 50, Color4.Green);
-            Draw.FilledTriangle(300, 200, 50, 50, Color4.PapayaWhip);
+            Draw.FilledTriangle(300, 200, 25, 25, Color4.PapayaWhip);
             Draw.FilledEllipse(500, 100, 50, 80, Color4.Green);
+            Draw.FilledPie(250, 150, 50, 50, 90, Color4.LimeGreen);
 
             //=========================================================
             GL.Enable(EnableCap.Texture2D);
             GL.Begin(BeginMode.Quads);
             GL.BindTexture(TextureTarget.Texture2D, textureId);
 
-            GL.TexCoord2(new Vector2(0, 0)); GL.Vertex3(50, 50, 0);
+            GL.TexCoord2(new Vector2(0, 0)); GL.Vertex3(0, 0, 0);
             GL.TexCoord2(new Vector2(0, 1)); GL.Vertex3(0, 100, 0);
             GL.TexCoord2(new Vector2(1, 1)); GL.Vertex3(100, 100, 0);
             GL.TexCoord2(new Vector2(1, 0)); GL.Vertex3(100, 0, 0);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.End();
-            GL.Disable(EnableCap.Texture2D); // opet se vypne kvuli fontu
+            GL.Disable(EnableCap.Texture2D); // opet se vypne kvuli kresleni
             //=========================================================
 
-            
-            /*
-            font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10));
-            font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30));
-            font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50));
-            font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 70));
-            font.Print(string.Format("Delta: {0}", e.Time.ToString("0.000000")), new Vector2(10, 90));
-            font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110));
+            int offset = 270;
+            font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));
+            font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30 + offset));
+            font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50 + offset));
+            font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 70 + offset));
+            font.Print(string.Format("Delta: {0}", e.Time.ToString("0.000000")), new Vector2(10, 90 + offset));
+            font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110 + offset));
             font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
-             */
         }
     }
 }

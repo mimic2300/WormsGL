@@ -10,6 +10,16 @@ namespace Glib
     /// </summary>
     public static class Util
     {
+        private static readonly Random random = new Random(Environment.TickCount);
+
+        /// <summary>
+        /// Vrátí náhodné číslo typu float od 0.0 do 1.0.
+        /// </summary>
+        public static float RandomFloat
+        {
+            get { return (float)random.NextDouble(); }
+        }
+
         /// <summary>
         /// Vykreslí textůru.
         /// </summary>
