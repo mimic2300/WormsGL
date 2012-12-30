@@ -11,6 +11,7 @@ namespace WormsGL
 {
     internal class WormsGame : GlibWindow
     {
+        private GameMenu menu;
         private QFont font;
         private Color4 color = Color4.Orange;
         private float rotation = 0;
@@ -30,7 +31,10 @@ namespace WormsGL
             font = new QFont(new Font(GlibFont, 16f));
             font.Options.Colour = Color4.PaleGreen;
 
+            menu = new GameMenu(this);
+
             VSync = VSyncMode.Off;
+            CursorVisible = true;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -69,7 +73,13 @@ namespace WormsGL
 
             // test KeyPress na písmeno "A"
             if (KeyInput.IsKeyPress(Key.A))
+            {
+                base.Size = new Size(1920, 1080);
+                //base.WindowState = OpenTK.WindowState.Fullscreen;
+                base.VSync = VSyncMode.On;
+
                 pressed = !pressed;
+            }
 
             // čtverec se otočí o 90° za sekundu
             rotation += (float)e.Time * 90;
@@ -101,6 +111,8 @@ namespace WormsGL
                 }
             }
             counter++;
+
+            menu.Update();
         }
 
         protected override void OnRenderBegin(FrameEventArgs e)
@@ -150,7 +162,9 @@ namespace WormsGL
             Draw.Texture2D(texCar, 240, 0, 100, 100, alpha);
             Draw.Texture2D(texCar, 120, 0, 100, 100, Color4.Teal);
             Draw.Texture2D(texImage, 100, 120, 30, 30);
-            
+
+            menu.Render();
+
             int offset = 270;
             font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30 + offset));
