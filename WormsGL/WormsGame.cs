@@ -106,6 +106,9 @@ namespace WormsGL
             Draw.FilledTriangle(300, 200, 25, 25, Color4.PapayaWhip);
             Draw.FilledEllipse(500, 100, 50, 80, Color4.Green);
             Draw.FilledPie(250, 150, 50, 50, 90, Color4.LimeGreen);
+            // texty
+            Draw.WiredRectangle(10, 450, 50, 50, Color4.OrangeRed);
+            Draw.WiredTriangle(40, 150, 50, 80, Color4.PaleGreen);
 
             //=========================================================
             GL.Enable(EnableCap.Texture2D);

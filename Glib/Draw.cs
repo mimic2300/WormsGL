@@ -9,6 +9,11 @@ namespace Glib
     /// </summary>
     public static class Draw
     {
+        /// <summary>
+        /// Segmentace pro základní objekty jako kruh, kružnice, elipsa apod.
+        /// </summary>
+        private const int Segmentation = 24;
+
         #region Point
 
         /// <summary>
@@ -53,6 +58,49 @@ namespace Glib
         /// <summary>
         /// Vykreslí obdelník.
         /// </summary>
+        /// <param name="mode">Mód pro vykreslení.</param>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="heigth">Výška.</param>
+        /// <param name="color">Barva.</param>
+        private static void BaseRectangle(BeginMode mode, float x, float y, float width, float heigth, Color4 color)
+        {
+            GL.Begin(mode);
+            GL.Color4(color);
+            GL.Vertex2(x, y);
+            GL.Vertex2(x, y + heigth);
+            GL.Vertex2(x + width, y + heigth);
+            GL.Vertex2(x + width, y);
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí drátěný model obdelníku.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="heigth">Výška.</param>
+        /// <param name="color">Barva.</param>
+        public static void WiredRectangle(float x, float y, float width, float heigth, Color4 color)
+        {
+            BaseRectangle(BeginMode.LineLoop, x, y, width, heigth, color);
+
+            GL.Begin(BeginMode.Lines);
+            GL.Color4(color);
+            // čára z horního levého rohu dolů do pravého dolního
+            GL.Vertex2(x, y);
+            GL.Vertex2(x + width, y + heigth);
+            // čára z dolního levého rohu do pravého horního
+            GL.Vertex2(x, y + heigth);
+            GL.Vertex2(x + width, y);
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí obdelník.
+        /// </summary>
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="width">Šířka.</param>
@@ -60,13 +108,7 @@ namespace Glib
         /// <param name="color">Barva.</param>
         public static void Rectangle(float x, float y, float width, float heigth, Color4 color)
         {
-            GL.Begin(BeginMode.LineLoop);
-            GL.Color4(color);
-            GL.Vertex2(x, y);
-            GL.Vertex2(x, y + heigth);
-            GL.Vertex2(x + width, y + heigth);
-            GL.Vertex2(x + width, y);
-            GL.End();
+            BaseRectangle(BeginMode.LineLoop, x, y, width, heigth, color);
         }
 
         /// <summary>
@@ -79,13 +121,7 @@ namespace Glib
         /// <param name="color">Barva.</param>
         public static void FilledRectangle(float x, float y, float width, float heigth, Color4 color)
         {
-            GL.Begin(BeginMode.Polygon);
-            GL.Color4(color);
-            GL.Vertex2(x, y);
-            GL.Vertex2(x, y + heigth);
-            GL.Vertex2(x + width, y + heigth);
-            GL.Vertex2(x + width, y);
-            GL.End();
+            BaseRectangle(BeginMode.Polygon, x, y, width, heigth, color);
         }
 
         #endregion Rectangle
@@ -93,26 +129,40 @@ namespace Glib
         #region Circle
 
         /// <summary>
+        /// Vykreslí kruh nebo kružnici.
+        /// </summary>
+        /// <param name="mode">Mód pro vykreslení.</param>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radius">Poloměr.</param>
+        /// <param name="segmentation">Počet bodů.</param>
+        /// <param name="color">Barva.</param>
+        private static void BaseCircle(BeginMode mode, float x, float y, float radius, int segmentation, Color4 color)
+        {
+            GL.Begin(mode);
+            GL.Color4(color);
+
+            double angle = 0;
+
+            for (int i = 0; i < segmentation; i++)
+            {
+                angle = i * GMath.TwoPI / segmentation;
+                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
+            }
+            GL.End();
+        }
+
+        /// <summary>
         /// Vykreslí kružnici.
         /// </summary>
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="radius">Poloměr.</param>
-        /// <param name="count">Počet bodů.</param>
+        /// <param name="segmentation">Počet bodů.</param>
         /// <param name="color">Barva.</param>
-        public static void Circle(float x, float y, float radius, int count, Color4 color)
+        public static void Circle(float x, float y, float radius, int segmentation, Color4 color)
         {
-            GL.Begin(BeginMode.LineLoop);
-            GL.Color4(color);
-
-            double angle = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                angle = i * GMath.TwoPI / count;
-                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
-            }
-            GL.End();
+            BaseCircle(BeginMode.LineLoop, x, y, radius, segmentation, color);
         }
 
         /// <summary>
@@ -125,18 +175,20 @@ namespace Glib
         /// <remarks>Výchozí počet bodů je 36.</remarks>
         public static void Circle(float x, float y, float radius, Color4 color)
         {
-            GL.Begin(BeginMode.LineLoop);
-            GL.Color4(color);
+            BaseCircle(BeginMode.LineLoop, x, y, radius, Segmentation, color);
+        }
 
-            double angle = 0;
-            const int count = 24;
-
-            for (int i = 0; i < count; i++)
-            {
-                angle = i * GMath.TwoPI / count;
-                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
-            }
-            GL.End();
+        /// <summary>
+        /// Vykreslí vyplněný kruh.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radius">Poloměr.</param>
+        /// <param name="segmentation">Počet bodů.</param>
+        /// <param name="color">Barva.</param>
+        public static void FilledCircle(float x, float y, float radius, int segmentation, Color4 color)
+        {
+            BaseCircle(BeginMode.Polygon, x, y, radius, segmentation, color);
         }
 
         /// <summary>
@@ -149,41 +201,7 @@ namespace Glib
         /// <remarks>Výchozí počet bodů je 36.</remarks>
         public static void FilledCircle(float x, float y, float radius, Color4 color)
         {
-            GL.Begin(BeginMode.Polygon);
-            GL.Color4(color);
-
-            double angle = 0;
-            const int count = 24;
-
-            for (int i = 0; i < count; i++)
-            {
-                angle = i * GMath.TwoPI / count;
-                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
-            }
-            GL.End();
-        }
-
-        /// <summary>
-        /// Vykreslí vyplněný kruh.
-        /// </summary>
-        /// <param name="x">Pozice X.</param>
-        /// <param name="y">Pozice Y.</param>
-        /// <param name="radius">Poloměr.</param>
-        /// <param name="count">Počet bodů.</param>
-        /// <param name="color">Barva.</param>
-        public static void FilledCircle(float x, float y, float radius, int count, Color4 color)
-        {
-            GL.Begin(BeginMode.Polygon);
-            GL.Color4(color);
-
-            double angle = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                angle = i * GMath.TwoPI / count;
-                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
-            }
-            GL.End();
+            BaseCircle(BeginMode.Polygon, x, y, radius, Segmentation, color);
         }
 
         #endregion Circle
@@ -193,22 +211,23 @@ namespace Glib
         /// <summary>
         /// Vykreslí elipsu.
         /// </summary>
+        /// <param name="mode">Mód pro vykreslení.</param>
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="radiusX">Poloměr X.</param>
         /// <param name="radiusY">Poloměr Y.</param>
-        /// <param name="count">Počet bodů.</param>
+        /// <param name="segmentation">Počet bodů.</param>
         /// <param name="color">Barva.</param>
-        public static void Ellipse(float x, float y, float radiusX, float radiusY, int count, Color4 color)
+        private static void BaseEllipse(BeginMode mode, float x, float y, float radiusX, float radiusY, int segmentation, Color4 color)
         {
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(mode);
             GL.Color4(color);
 
             double angle = 0;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < segmentation; i++)
             {
-                angle = i * GMath.TwoPI / count;
+                angle = i * GMath.TwoPI / segmentation;
                 GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
             }
             GL.End();
@@ -221,22 +240,38 @@ namespace Glib
         /// <param name="y">Pozice Y.</param>
         /// <param name="radiusX">Poloměr X.</param>
         /// <param name="radiusY">Poloměr Y.</param>
+        /// <param name="segmentation">Počet bodů.</param>
         /// <param name="color">Barva.</param>
-        /// <remarks>Výchozí počet bodů je 36.</remarks>
+        public static void Ellipse(float x, float y, float radiusX, float radiusY, int segmentation, Color4 color)
+        {
+            BaseEllipse(BeginMode.LineLoop, x, y, radiusX, radiusY, segmentation, color);
+        }
+
+        /// <summary>
+        /// Vykreslí elipsu.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radiusX">Poloměr X.</param>
+        /// <param name="radiusY">Poloměr Y.</param>
+        /// <param name="color">Barva.</param>
         public static void Ellipse(float x, float y, float radiusX, float radiusY, Color4 color)
         {
-            GL.Begin(BeginMode.LineLoop);
-            GL.Color4(color);
+            BaseEllipse(BeginMode.LineLoop, x, y, radiusX, radiusY, Segmentation, color);
+        }
 
-            double angle = 0;
-            const int count = 24;
-
-            for (int i = 0; i < count; i++)
-            {
-                angle = i * GMath.TwoPI / count;
-                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
-            }
-            GL.End();
+        /// <summary>
+        /// Vykreslí vyplněnou elipsu.
+        /// </summary>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="radiusX">Poloměr X.</param>
+        /// <param name="radiusY">Poloměr Y.</param>
+        /// <param name="segmentation">Počet bodů.</param>
+        /// <param name="color">Barva.</param>
+        public static void FilledEllipse(float x, float y, float radiusX, float radiusY, int segmentation, Color4 color)
+        {
+            BaseEllipse(BeginMode.Polygon, x, y, radiusX, radiusY, segmentation, color);
         }
 
         /// <summary>
@@ -247,45 +282,9 @@ namespace Glib
         /// <param name="radiusX">Poloměr X.</param>
         /// <param name="radiusY">Poloměr Y.</param>
         /// <param name="color">Barva.</param>
-        /// <remarks>Výchozí počet bodů je 36.</remarks>
         public static void FilledEllipse(float x, float y, float radiusX, float radiusY, Color4 color)
         {
-            GL.Begin(BeginMode.Polygon);
-            GL.Color4(color);
-
-            double angle = 0;
-            const int count = 24;
-
-            for (int i = 0; i < count; i++)
-            {
-                angle = i * GMath.TwoPI / count;
-                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
-            }
-            GL.End();
-        }
-
-        /// <summary>
-        /// Vykreslí vyplněnou elipsu.
-        /// </summary>
-        /// <param name="x">Pozice X.</param>
-        /// <param name="y">Pozice Y.</param>
-        /// <param name="radiusX">Poloměr X.</param>
-        /// <param name="radiusY">Poloměr Y.</param>
-        /// <param name="count">Počet bodů.</param>
-        /// <param name="color">Barva.</param>
-        public static void FilledEllipse(float x, float y, float radiusX, float radiusY, int count, Color4 color)
-        {
-            GL.Begin(BeginMode.Polygon);
-            GL.Color4(color);
-
-            double angle = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                angle = i * GMath.TwoPI / count;
-                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
-            }
-            GL.End();
+            BaseEllipse(BeginMode.Polygon, x, y, radiusX, radiusY, Segmentation, color);
         }
 
         #endregion Ellipse
@@ -295,19 +294,47 @@ namespace Glib
         /// <summary>
         /// Vykreslí trojúhelník.
         /// </summary>
+        /// <param name="mode">Mód pro vykreslení.</param>
         /// <param name="cx">Pozice bodu C (vrcholu) na ose X.</param>
         /// <param name="cy">Pozice bodu C (vrcholu) na ose Y.</param>
-        /// <param name="baseSize">Délka podstavce (od vrcholu A do B).</param>
+        /// <param name="z">Délka podstavce (od vrcholu A do B).</param>
         /// <param name="v">Výška.</param>
         /// <param name="color">Barva.</param>
-        public static void Triangle(float cx, float cy, float baseSize, float v, Color4 color)
+        private static void BaseTriangle(BeginMode mode, float cx, float cy, float z, float v, Color4 color)
         {
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(mode);
             GL.Color4(color);
             GL.Vertex2(cx, cy);
-            GL.Vertex2(cx - baseSize / 2, cy + v);
-            GL.Vertex2(cx + baseSize / 2, cy + v);
+            GL.Vertex2(cx - z / 2, cy + v);
+            GL.Vertex2(cx + z / 2, cy + v);
             GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí drátěný model trojúhelníku.
+        /// </summary>
+        /// <param name="cx">Pozice bodu C (vrcholu) na ose X.</param>
+        /// <param name="cy">Pozice bodu C (vrcholu) na ose Y.</param>
+        /// <param name="z">Délka podstavce (od vrcholu A do B).</param>
+        /// <param name="v">Výška.</param>
+        /// <param name="color">Barva.</param>
+        public static void WiredTriangle(float cx, float cy, float z, float v, Color4 color)
+        {
+            BaseTriangle(BeginMode.LineLoop, cx, cy, z, v, color);
+            Line(cx, cy, cx, cy + v, color);
+        }
+
+        /// <summary>
+        /// Vykreslí trojúhelník.
+        /// </summary>
+        /// <param name="cx">Pozice bodu C (vrcholu) na ose X.</param>
+        /// <param name="cy">Pozice bodu C (vrcholu) na ose Y.</param>
+        /// <param name="z">Délka podstavce (od vrcholu A do B).</param>
+        /// <param name="v">Výška.</param>
+        /// <param name="color">Barva.</param>
+        public static void Triangle(float cx, float cy, float z, float v, Color4 color)
+        {
+            BaseTriangle(BeginMode.LineLoop, cx, cy, z, v, color);
         }
 
         /// <summary>
@@ -315,22 +342,45 @@ namespace Glib
         /// </summary>
         /// <param name="cx">Pozice bodu C (vrcholu) na ose X.</param>
         /// <param name="cy">Pozice bodu C (vrcholu) na ose Y.</param>
-        /// <param name="baseSize">Délka podstavce (od vrcholu A do B).</param>
+        /// <param name="z">Délka podstavce (od vrcholu A do B).</param>
         /// <param name="v">Výška.</param>
         /// <param name="color">Barva.</param>
-        public static void FilledTriangle(float cx, float cy, float baseSize, float v, Color4 color)
+        public static void FilledTriangle(float cx, float cy, float z, float v, Color4 color)
         {
-            GL.Begin(BeginMode.Polygon);
-            GL.Color4(color);
-            GL.Vertex2(cx, cy);
-            GL.Vertex2(cx - baseSize / 2, cy + v);
-            GL.Vertex2(cx + baseSize / 2, cy + v);
-            GL.End();
+            BaseTriangle(BeginMode.Polygon, cx, cy, z, v, color);
         }
 
         #endregion Triangle
 
         #region Pie
+
+        /// <summary>
+        /// Vykreslí koláčový graf.
+        /// </summary>
+        /// <param name="mode">Mód pro vykreslení.</param>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        /// <param name="angle">Úhel (jak velká část se má vykreslit).</param>
+        /// <param name="color">Barva.</param>
+        private static void BasePie(BeginMode mode, float x, float y, float width, float height, int angle, Color4 color)
+        {
+            if (angle > 360)
+                angle = 360;
+
+            GL.Color4(color);
+            GL.Begin(mode);
+            GL.Vertex2(x, y);
+
+            for (int i = 0; i <= angle; i += 2)
+            {
+                GL.Vertex2(
+                    x + (float)Math.Cos(i * GMath.PI_180) * width,
+                    y + (float)Math.Sin(i * GMath.PI_180) * height);
+            }
+            GL.End();
+        }
 
         /// <summary>
         /// Vykreslí koláčový graf.
@@ -343,20 +393,7 @@ namespace Glib
         /// <param name="color">Barva.</param>
         public static void Pie(float x, float y, float width, float height, int angle, Color4 color)
         {
-            if (angle > 360)
-                angle = 360;
-
-            GL.Color4(color);
-            GL.Begin(BeginMode.LineLoop);
-            GL.Vertex2(x, y);
-
-            for (int i = 0; i <= angle; i += 2)
-            {
-                GL.Vertex2(
-                    x + (float)Math.Cos(i * GMath.PI_180) * width,
-                    y + (float)Math.Sin(i * GMath.PI_180) * height);
-            }
-            GL.End();
+            BasePie(BeginMode.LineLoop, x, y, width, height, angle, color);
         }
 
         /// <summary>
@@ -370,20 +407,7 @@ namespace Glib
         /// <param name="color">Barva.</param>
         public static void FilledPie(float x, float y, float width, float height, int angle, Color4 color)
         {
-            if (angle > 360)
-                angle = 360;
-
-            GL.Color4(color);
-            GL.Begin(BeginMode.Polygon);
-            GL.Vertex2(x, y);
-
-            for (int i = 0; i <= angle; i += 2)
-            {
-                GL.Vertex2(
-                    x + (float)Math.Cos(i * GMath.PI_180) * width,
-                    y + (float)Math.Sin(i * GMath.PI_180) * height);
-            }
-            GL.End();
+            BasePie(BeginMode.Polygon, x, y, width, height, angle, color);
         }
 
         #endregion Pie
