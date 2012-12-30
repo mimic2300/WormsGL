@@ -111,6 +111,7 @@ namespace WormsGL
             Draw.WiredTriangle(40, 150, 50, 80, Color4.PaleGreen);
             // testy - letters
             Draw.H(600, 30, Color4.White);
+            Draw.I(635, 30, Color4.White);
 
             //=========================================================
             GL.Enable(EnableCap.Texture2D);
@@ -135,6 +136,14 @@ namespace WormsGL
             font.Print(string.Format("Delta: {0}", e.Time.ToString("0.000000")), new Vector2(10, 90 + offset));
             font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110 + offset));
             font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
+
+            float n = Util.RandomFloat;
+
+            if (n >= 1.0f)
+            {
+                System.Console.Beep(2000, 500);
+            }
+            System.Console.WriteLine(Util.RandomFloat);
         }
     }
 }

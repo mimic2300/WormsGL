@@ -17,7 +17,7 @@ namespace Glib
         /// </summary>
         public static float RandomFloat
         {
-            get { return (float)random.NextDouble(); }
+            get { return (float)random.Next(0, 100001) / 100000; }
         }
 
         /// <summary>

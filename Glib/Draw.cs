@@ -468,6 +468,39 @@ namespace Glib
 
             GL.Vertex2(x + 8, y + 28);
             GL.Vertex2(x, y + 28);
+
+            GL.End();
+        }
+
+        /// <summary>
+        /// Vykreslí písmeno I.
+        /// </summary>
+        /// <param name="x">Pozice horního levého rohu na ose X.</param>
+        /// <param name="y">Pozice horního levého rohu na ose Y.</param>
+        /// <param name="color">Barva.</param>
+        public static void I(float x, float y, Color4 color)
+        {
+            GL.Begin(BeginMode.LineLoop);
+            GL.Color4(color);
+
+            GL.Vertex2(x, y);
+            GL.Vertex2(x + 18, y);
+
+            GL.Vertex2(x + 18, y + 6);
+            GL.Vertex2(x + 12, y + 6);
+
+            GL.Vertex2(x + 12, y + 22);
+            GL.Vertex2(x + 18, y + 22);
+
+            GL.Vertex2(x + 18, y + 28);
+            GL.Vertex2(x, y + 28);
+
+            GL.Vertex2(x, y + 22);
+            GL.Vertex2(x + 6, y + 22);
+
+            GL.Vertex2(x + 6, y + 6);
+            GL.Vertex2(x, y + 6);
+
             GL.End();
         }
 
