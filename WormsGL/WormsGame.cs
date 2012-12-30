@@ -36,6 +36,13 @@ namespace WormsGL
 
             VSync = VSyncMode.Off;
             CursorVisible = true;
+
+            Debug.Clear();
+            Debug.Add(
+                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")),
+                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")),
+                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")),
+                new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")));
         }
 
         protected override void OnLoad(EventArgs e)
@@ -165,10 +172,6 @@ namespace WormsGL
             Draw.Texture2D(texImage, 100, 120, 30, 30);
 
             menu.Render();
-
-            Debug.Clear();
-            Debug.Add(new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")));
-
 
             //int offset = 270;
             //font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));

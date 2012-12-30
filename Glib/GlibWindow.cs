@@ -1,6 +1,6 @@
-﻿using Glib.Input;
+﻿using Glib.Diagnostics;
+using Glib.Input;
 using Glib.Properties;
-using Glib.Diagnostics;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -15,6 +15,8 @@ namespace Glib
     /// </summary>
     public abstract class GlibWindow : GameWindow, IDisposable
     {
+        #region Události
+
         /// <summary>
         /// Vykresluje vše až nakonec.
         /// </summary>
@@ -28,6 +30,8 @@ namespace Glib
             if (RenderEnd != null)
                 RenderEnd();
         }
+
+        #endregion Události
 
         private string contentDirectory = Environment.CurrentDirectory;
         private KeyboardInput keyboard;
@@ -55,11 +59,12 @@ namespace Glib
             debug = new GDebug(this);
 
             debug.FontColor = Color.White;
-            debug.Add(new GDebugItem("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", () => TimeElapsed));
-            debug.Add(new GDebugItem("FPS: {0}", () => FPS.ToString("#")));
-            debug.Add(new GDebugItem("Delta: {0}", () => deltaTime.ToString("F6")));
-            debug.Add(new GDebugItem("Mouse: {0}", () => MouseInput));
-            debug.Add(new GDebugItem("Keyboard: {0}", () => KeyInput));
+            debug.Add(
+                new GDebugItem("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", () => TimeElapsed),
+                new GDebugItem("FPS: {0}", () => FPS.ToString("#")),
+                new GDebugItem("Delta: {0}", () => deltaTime.ToString("F6")),
+                new GDebugItem("Mouse: {0}", () => MouseInput),
+                new GDebugItem("Keyboard: {0}", () => KeyInput));
         }
 
         /// <summary>
@@ -306,8 +311,7 @@ namespace Glib
         {
             base.OnLoad(e);
 
-            // barva pozadí - černá
-            GL.ClearColor(0, 0, 0, 1);
+            GL.ClearColor(Color4.Black);
         }
 
         /// <summary>
@@ -318,7 +322,6 @@ namespace Glib
         {
             base.OnResize(e);
 
-            // výchozí vieport
             GL.Viewport(X, Y, Width, Height);
         }
 
@@ -336,7 +339,7 @@ namespace Glib
             OnRender(e);
             OnRenderEnd(e);
 
-            SwapBuffers(); // prohodí backBuffer a frontBuffer
+            SwapBuffers();
         }
 
         /// <summary>
