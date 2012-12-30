@@ -30,7 +30,7 @@ namespace WormsGL
             font = new QFont(Path.Combine(Content, "Comfortaa-Regular.ttf"), 16f);
             font.Options.Colour = Color4.PaleGreen;
 
-            VSync = VSyncMode.Off;
+            VSync = VSyncMode.On;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -65,7 +65,7 @@ namespace WormsGL
 
             // zrychlí rotaci
             if (KeyInput.IsKeyDown(Key.Space))
-                rotation += 0.08f;
+                rotation += 180f * (float)e.Time;
 
             // test KeyPress na písmeno "A"
             if (KeyInput.IsKeyPress(Key.A))

@@ -1,4 +1,5 @@
-﻿namespace Glib
+﻿using System;
+namespace Glib
 {
     /// <summary>
     /// Matametika.
@@ -63,5 +64,35 @@
         public const float Radian = 180.0f / PI;
 
         #endregion Konstanty
+
+        /// <summary>
+        /// Vypočte sínus.
+        /// </summary>
+        /// <param name="value">Hodnota.</param>
+        /// <returns>Vrací sínus.</returns>
+        public static float Sin(double value)
+        {
+            return (float)Math.Sin(value);
+        }
+
+        /// <summary>
+        /// Vypočte kosínus.
+        /// </summary>
+        /// <param name="value">Hodnota.</param>
+        /// <returns>Vrací kosínus.</returns>
+        public static float Cos(double value)
+        {
+            return (float)Math.Cos(value);
+        }
+
+        /// <summary>
+        /// Vypočte druhou odmocninu.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Vrací druhou odmocninu.</returns>
+        public static float Sqrt(double value)
+        {
+            return (float)Math.Sqrt(value);
+        }
     }
 }

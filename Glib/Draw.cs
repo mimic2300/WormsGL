@@ -143,12 +143,15 @@ namespace Glib
             GL.Begin(mode);
             GL.Color4(color);
 
-            double angle = 0;
+            float angle = 0;
 
             for (int i = 0; i < segmentation; i++)
             {
                 angle = i * GMath.TwoPI / segmentation;
-                GL.Vertex2(x + (Math.Cos(angle) * radius), y + (Math.Sin(angle) * radius));
+
+                GL.Vertex2(
+                    x + (GMath.Cos(angle) * radius),
+                    y + (GMath.Sin(angle) * radius));
             }
             GL.End();
         }
@@ -224,12 +227,15 @@ namespace Glib
             GL.Begin(mode);
             GL.Color4(color);
 
-            double angle = 0;
+            float angle = 0;
 
             for (int i = 0; i < segmentation; i++)
             {
                 angle = i * GMath.TwoPI / segmentation;
-                GL.Vertex2(x + (Math.Cos(angle) * radiusX), y + (Math.Sin(angle) * radiusY));
+
+                GL.Vertex2(
+                    x + (GMath.Cos(angle) * radiusX),
+                    y + (GMath.Sin(angle) * radiusY));
             }
             GL.End();
         }
@@ -377,8 +383,8 @@ namespace Glib
             for (int i = 0; i <= angle; i += 2)
             {
                 GL.Vertex2(
-                    x + (float)Math.Cos(i * GMath.PI_180) * width,
-                    y + (float)Math.Sin(i * GMath.PI_180) * height);
+                    x + GMath.Cos(i * GMath.PI_180) * width,
+                    y + GMath.Sin(i * GMath.PI_180) * height);
             }
             GL.End();
         }
@@ -431,8 +437,8 @@ namespace Glib
             for (float i = 0; i < rotations * GMath.TwoPI; i += smooth)
             {
                 GL.Vertex2(
-                    x + (float)Math.Sin(i) * i,
-                    y + (float)Math.Cos(i) * i);
+                    x + GMath.Sin(i) * i,
+                    y + GMath.Cos(i) * i);
             }
             GL.End();
         }
