@@ -1,4 +1,5 @@
 ﻿using Glib;
+using Glib.Debug;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -165,17 +166,21 @@ namespace WormsGL
 
             menu.Render();
 
-            int offset = 270;
-            font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));
-            font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30 + offset));
-            font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50 + offset));
-            font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 70 + offset));
-            font.Print(string.Format("Delta: {0}", DeltaTime.ToString("F6")), new Vector2(10, 90 + offset));
-            font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110 + offset));
-            font.Print(string.Format("Pressed A: {0}", pressed), new Vector2(10, 130 + offset));
-            font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
+            Debug.Clear();
+            Debug.Add(new GDebugItem("FPS z WormsGame: {0}", () => FPS.ToString("#")));
 
-            font.Print("ěščřžýáíé - 0123456789 - ďťňóůú - [](){}+-:._*&#@/\\?!<>;$~=| - abcdefghijklmnopqrstuvqxyz", new Vector2(10, Height - 30));
+
+            //int offset = 270;
+            //font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));
+            //font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30 + offset));
+            //font.Print(string.Format("Mouse: {0}", MouseInput), new Vector2(10, 50 + offset));
+            //font.Print(string.Format("Keyboard: {0}", KeyInput), new Vector2(10, 70 + offset));
+            //font.Print(string.Format("Delta: {0}", DeltaTime.ToString("F6")), new Vector2(10, 90 + offset));
+            //font.Print(string.Format("Rotation: {0}", rotation.ToString("#")), new Vector2(10, 110 + offset));
+            //font.Print(string.Format("Pressed A: {0}", pressed), new Vector2(10, 130 + offset));
+            //font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
+
+            //font.Print("ěščřžýáíé - 0123456789 - ďťňóůú - [](){}+-:._*&#@/\\?!<>;$~=| - abcdefghijklmnopqrstuvqxyz", new Vector2(10, Height - 30));
         }
     }
 }

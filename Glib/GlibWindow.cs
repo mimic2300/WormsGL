@@ -1,5 +1,6 @@
 ﻿using Glib.Input;
 using Glib.Properties;
+using Glib.Debug;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -34,7 +35,7 @@ namespace Glib
         private FpsCounter fpsCounter;
         private GameTime gameTime;
         private FontFamily glibDefaultFont;
-        private Debug debug;
+        private GDebug debug;
         private bool begin = false;
         private float deltaTime = 0;
 
@@ -51,20 +52,14 @@ namespace Glib
             mouse = new MouseInput(this);
             fpsCounter = new FpsCounter(this);
             gameTime = new GameTime(this);
-            debug = new Debug(this);
+            debug = new GDebug(this);
 
-            debug.FontColor = Color.LimeGreen;
-            debug.Add(
-                new DebugItem("FPS: {0}", FPS, DebugType.Fps),
-                new DebugItem("Delta: {0}", DeltaTime, DebugType.DeltaTime));
-            /*
-            debug.Add(
-                string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed),
-                string.Format("FPS: {0}", FPS.ToString("#")),
-                string.Format("Delta: {0}", DeltaTime.ToString("F6")),
-                string.Format("Mouse: {0}", MouseInput),
-                string.Format("Keyboard: {0}", KeyInput));
-             */
+            debug.FontColor = Color.White;
+            debug.Add(new GDebugItem("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", () => TimeElapsed));
+            debug.Add(new GDebugItem("FPS: {0}", () => FPS.ToString("#")));
+            debug.Add(new GDebugItem("Delta: {0}", () => deltaTime.ToString("F6")));
+            debug.Add(new GDebugItem("Mouse: {0}", () => MouseInput));
+            debug.Add(new GDebugItem("Keyboard: {0}", () => KeyInput));
         }
 
         /// <summary>
@@ -240,7 +235,7 @@ namespace Glib
         /// <summary>
         /// Debug výpisy na okno.
         /// </summary>
-        public Debug Debug
+        public GDebug Debug
         {
             get { return debug; }
         }
