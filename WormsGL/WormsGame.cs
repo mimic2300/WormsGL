@@ -125,8 +125,9 @@ namespace WormsGL
 
             //=========================================================
             GL.Enable(EnableCap.Texture2D);
-            GL.Begin(BeginMode.Quads);
+
             GL.BindTexture(TextureTarget.Texture2D, textureId);
+            GL.Begin(BeginMode.Quads);
 
             GL.TexCoord2(new Vector2(0, 0)); GL.Vertex3(0, 0, 0);
             GL.TexCoord2(new Vector2(0, 1)); GL.Vertex3(0, 100, 0);
