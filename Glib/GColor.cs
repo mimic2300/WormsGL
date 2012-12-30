@@ -8,7 +8,7 @@ namespace Glib
     public static class GColor
     {
         /// <summary>
-        /// Náhodná barva.
+        /// Náhodná barva i náhodný alfa kanál.
         /// </summary>
         /// <returns>Vrací novou barvu.</returns>
         public static Color4 RandomColorAlpha()
@@ -17,7 +17,7 @@ namespace Glib
         }
 
         /// <summary>
-        /// Náhodná barva a
+        /// Náhodná barva s vlastním alfa kanálem.
         /// </summary>
         /// <param name="alpha">Alfa barva (průhlednost).</param>
         /// <returns>Vrací novou barvu.</returns>

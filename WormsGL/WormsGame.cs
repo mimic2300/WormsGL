@@ -6,7 +6,6 @@ using OpenTK.Input;
 using QuickFont;
 using System;
 using System.Drawing;
-using System.IO;
 
 namespace WormsGL
 {
@@ -151,7 +150,7 @@ namespace WormsGL
             Draw.Texture2D(texCar, 0, 0, 100, 100, alpha);
             Draw.Texture2D(texCar, 120, 0, 100, 100, Color4.Teal);
             Draw.Texture2D(texImage, 100, 120, 30, 30);
-
+            /*
             int offset = 270;
             font.Print(string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed), new Vector2(10, 10 + offset));
             font.Print(string.Format("FPS: {0}", FPS.ToString("#")), new Vector2(10, 30 + offset));
@@ -162,7 +161,7 @@ namespace WormsGL
             font.Print(string.Format("Pressed A: {0}", pressed), new Vector2(10, 130 + offset));
             font.Print(string.Format("{0}x{1}", Mouse.X, Mouse.Y), new Vector2(Mouse.X + 5, Mouse.Y - 22));
 
-            font.Print("ěščřžýáíé - 0123456789 - ďťňóůú - [](){}+-:._*&#@/\\?!<>;$~=| - abcdefghijklmnopqrstuvqxyz", new Vector2(10, Height - 30));
+            font.Print("ěščřžýáíé - 0123456789 - ďťňóůú - [](){}+-:._*&#@/\\?!<>;$~=| - abcdefghijklmnopqrstuvqxyz", new Vector2(10, Height - 30));*/
         }
     }
 }

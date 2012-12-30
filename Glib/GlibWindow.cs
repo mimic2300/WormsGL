@@ -14,12 +14,27 @@ namespace Glib
     /// </summary>
     public abstract class GlibWindow : GameWindow, IDisposable
     {
+        /// <summary>
+        /// Vykresluje vše až nakonec.
+        /// </summary>
+        public event Action RenderEnd;
+
+        /// <summary>
+        /// Vykresluje vše až nakonec.
+        /// </summary>
+        private void Do_RenderEnd()
+        {
+            if (RenderEnd != null)
+                RenderEnd();
+        }
+
         private string contentDirectory = Environment.CurrentDirectory;
         private KeyboardInput keyboard;
         private MouseInput mouse;
         private FpsCounter fpsCounter;
         private GameTime gameTime;
         private FontFamily glibDefaultFont;
+        private Debug debug;
         private bool begin = false;
         private float deltaTime = 0;
 
@@ -36,6 +51,15 @@ namespace Glib
             mouse = new MouseInput(this);
             fpsCounter = new FpsCounter(this);
             gameTime = new GameTime(this);
+            debug = new Debug(this);
+
+            debug.FontColor = Color.LimeGreen;
+            debug.Add(
+                string.Format("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", TimeElapsed),
+                string.Format("FPS: {0}", FPS.ToString("#")),
+                string.Format("Delta: {0}", DeltaTime.ToString("F6")),
+                string.Format("Mouse: {0}", MouseInput),
+                string.Format("Keyboard: {0}", KeyInput));
         }
 
         /// <summary>
@@ -208,6 +232,14 @@ namespace Glib
             get { return glibDefaultFont; }
         }
 
+        /// <summary>
+        /// Debug výpisy na okno.
+        /// </summary>
+        public Debug Debug
+        {
+            get { return debug; }
+        }
+
         #endregion Vlastnosti
 
         #region Funkce
@@ -325,6 +357,7 @@ namespace Glib
         /// <param name="e"></param>
         protected virtual void OnRenderEnd(FrameEventArgs e)
         {
+            Do_RenderEnd();
             EndPixelSystem();
         }
 
