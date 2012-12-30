@@ -63,15 +63,15 @@ namespace Glib
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="width">Šířka.</param>
-        /// <param name="heigth">Výška.</param>
+        /// <param name="height">Výška.</param>
         /// <param name="color">Barva.</param>
-        private static void BaseRectangle(BeginMode mode, float x, float y, float width, float heigth, Color4 color)
+        private static void BaseRectangle(BeginMode mode, float x, float y, float width, float height, Color4 color)
         {
             GL.Begin(mode);
             GL.Color4(color);
             GL.Vertex2(x, y);
-            GL.Vertex2(x, y + heigth);
-            GL.Vertex2(x + width, y + heigth);
+            GL.Vertex2(x, y + height);
+            GL.Vertex2(x + width, y + height);
             GL.Vertex2(x + width, y);
             GL.End();
         }
@@ -82,19 +82,19 @@ namespace Glib
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="width">Šířka.</param>
-        /// <param name="heigth">Výška.</param>
+        /// <param name="height">Výška.</param>
         /// <param name="color">Barva.</param>
-        public static void WiredRectangle(float x, float y, float width, float heigth, Color4 color)
+        public static void WiredRectangle(float x, float y, float width, float height, Color4 color)
         {
-            BaseRectangle(BeginMode.LineLoop, x, y, width, heigth, color);
+            BaseRectangle(BeginMode.LineLoop, x, y, width, height, color);
 
             GL.Begin(BeginMode.Lines);
             GL.Color4(color);
             // čára z horního levého rohu dolů do pravého dolního
             GL.Vertex2(x, y);
-            GL.Vertex2(x + width, y + heigth);
+            GL.Vertex2(x + width, y + height);
             // čára z dolního levého rohu do pravého horního
-            GL.Vertex2(x, y + heigth);
+            GL.Vertex2(x, y + height);
             GL.Vertex2(x + width, y);
             GL.End();
         }
@@ -105,11 +105,11 @@ namespace Glib
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="width">Šířka.</param>
-        /// <param name="heigth">Výška.</param>
+        /// <param name="height">Výška.</param>
         /// <param name="color">Barva.</param>
-        public static void Rectangle(float x, float y, float width, float heigth, Color4 color)
+        public static void Rectangle(float x, float y, float width, float height, Color4 color)
         {
-            BaseRectangle(BeginMode.LineLoop, x, y, width, heigth, color);
+            BaseRectangle(BeginMode.LineLoop, x, y, width, height, color);
         }
 
         /// <summary>
@@ -118,11 +118,11 @@ namespace Glib
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="width">Šířka.</param>
-        /// <param name="heigth">Výška.</param>
+        /// <param name="height">Výška.</param>
         /// <param name="color">Barva.</param>
-        public static void FilledRectangle(float x, float y, float width, float heigth, Color4 color)
+        public static void FilledRectangle(float x, float y, float width, float height, Color4 color)
         {
-            BaseRectangle(BeginMode.Polygon, x, y, width, heigth, color);
+            BaseRectangle(BeginMode.Polygon, x, y, width, height, color);
         }
 
         #endregion Rectangle
@@ -512,20 +512,19 @@ namespace Glib
         /// <summary>
         /// Vykreslí 2D texturu.
         /// </summary>
-        /// <param name="texturePointer">Ukazatel na texturu.</param>
+        /// <param name="textureID">ID textůry.</param>
         /// <param name="x">Pozice X.</param>
         /// <param name="y">Pozice Y.</param>
         /// <param name="width">Šířka.</param>
         /// <param name="height">Výška.</param>
-        /// <param name="alpha">Průhlednost (default = 255)</param>
-        public static void Texture2D(int texturePointer, float x, float y, float width, float height, byte alpha = 255)
+        /// <param name="color">Barva textůry.</param>
+        public static void Texture2D(int textureID, float x, float y, float width, float height, Color4 color)
         {
             GL.Enable(EnableCap.Texture2D);
-
-            GL.BindTexture(TextureTarget.Texture2D, texturePointer);
+            GL.BindTexture(TextureTarget.Texture2D, textureID);
             GL.Begin(BeginMode.Quads);
 
-            GL.Color4(new Color4(255, 255, 255, alpha));
+            GL.Color4(color);
             GL.TexCoord2(new Vector2(0, 0)); GL.Vertex2(x, y);
             GL.TexCoord2(new Vector2(0, 1)); GL.Vertex2(x, y + height);
             GL.TexCoord2(new Vector2(1, 1)); GL.Vertex2(x + width, y + height);
@@ -534,6 +533,20 @@ namespace Glib
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.End();
             GL.Disable(EnableCap.Texture2D);
+        }
+
+        /// <summary>
+        /// Vykreslí 2D texturu.
+        /// </summary>
+        /// <param name="textureID">ID textůry.</param>
+        /// <param name="x">Pozice X.</param>
+        /// <param name="y">Pozice Y.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        /// <param name="alpha">Průhlednost (default = 255)</param>
+        public static void Texture2D(int textureID, float x, float y, float width, float height, byte alpha = 255)
+        {
+            Texture2D(textureID, x, y, width, height, new Color4(255, 255, 255, alpha));
         }
 
         #endregion Texture

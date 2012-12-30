@@ -148,9 +148,10 @@ namespace WormsGL
             Draw.I(635, 30, Color4.White);
 
             //=========================================================
-            
-            Draw.Texture2D(imageTextureId, 100, 100, 30, 30);
+
             Draw.Texture2D(carTextureId, 0, 0, 100, 100, alpha);
+            Draw.Texture2D(carTextureId, 120, 0, 100, 100, Color4.Teal);
+            Draw.Texture2D(imageTextureId, 100, 120, 30, 30);
 
             //=========================================================
 
