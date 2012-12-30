@@ -16,6 +16,7 @@ namespace WormsGL
         private float rotation = 0;
         private int imageTextureId = 0;
         private int carTextureId = 0;
+        private byte alpha = 255;
         private bool pressed = false;
 
         public WormsGame()
@@ -79,6 +80,13 @@ namespace WormsGL
             {
                 color = GColor.RandomColor();
             }
+
+            alpha--;
+
+            if (alpha <= 0)
+            {
+                alpha = 255;
+            }
         }
 
         protected override void OnRenderBegin(FrameEventArgs e)
@@ -128,7 +136,7 @@ namespace WormsGL
             //=========================================================
             
             Draw.Texture2D(imageTextureId, 100, 100, 30, 30);
-            Draw.Texture2D(carTextureId, 0, 0, 100, 100, 100);
+            Draw.Texture2D(carTextureId, 0, 0, 100, 100, alpha);
 
             //=========================================================
 
