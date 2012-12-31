@@ -28,8 +28,11 @@ namespace Glib.Input
             window.Mouse.Move += (o, e) => { MouseMove(e); };
             window.UpdateFrame += (o, e) =>
             {
-                // TODO: stále problém s rámečkem okna
-                containsMouse = window.Bounds.IntersectsWith(new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1));
+                Rectangle temp = window.Bounds;
+                temp.Width += (temp.Bottom - temp.Width);
+
+                // TODO: stále problém s rámečkem okna na ose Y
+                containsMouse = temp.IntersectsWith(new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1));
             };
         }
 
