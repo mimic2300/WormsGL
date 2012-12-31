@@ -8,7 +8,6 @@ namespace Glib.Input
     /// </summary>
     public class MouseInput : GlibInput
     {
-        private bool containsMouse = false;
         private int deltaX = 0;
         private int deltaY = 0;
         private Point clickedPosition = Point.Empty;
@@ -25,9 +24,6 @@ namespace Glib.Input
             window.Mouse.ButtonDown += (o, e) => { MouseDown(e); };
             window.Mouse.ButtonUp += (o, e) => { MouseUp(e); };
             window.Mouse.Move += (o, e) => { MouseMove(e); };
-
-            window.MouseEnter += (o, e) => { containsMouse = true; };
-            window.MouseLeave += (o, e) => { containsMouse = false; };
         }
 
         /// <summary>
@@ -75,7 +71,10 @@ namespace Glib.Input
         /// </summary>
         public bool ContainsMouse
         {
-            get { return containsMouse; }
+            get
+            {
+                return Window.ClientRectangle.IntersectsWith(new Rectangle(X, Y, 1, 1));
+            }
         }
 
         /// <summary>
@@ -160,7 +159,7 @@ namespace Glib.Input
         public override string ToString()
         {
             return string.Format("[x={0}, y={1}, z={2}] {3} [dx={4}, dy={5}] {6}",
-                X, Y, Z, containsMouse, deltaX, deltaY, button);
+                X, Y, Z, ContainsMouse, deltaX, deltaY, button);
         }
     }
 }
