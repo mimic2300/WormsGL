@@ -4,6 +4,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using QuickFont;
+using System;
 using System.Drawing;
 
 namespace WormsGL
@@ -11,6 +12,7 @@ namespace WormsGL
     internal class WormsGame : GlibWindow
     {
         private GameState gameState = GameState.Menu;
+        private Rectangle prevWindowRect;
         private GameMenu menu;
         private QFont font;
 
@@ -28,6 +30,13 @@ namespace WormsGL
             menu = new GameMenu(this);
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            prevWindowRect = new Rectangle(Location.X, Location.Y, Width, Height);
+        }
+
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
@@ -42,7 +51,18 @@ namespace WormsGL
 
             // nastaví fullscreen v rozlišení plochy
             if (KeyInput.IsKeyPress(Key.F12))
-                SetScreen(true, DesktopWidth, DesktopHeight);
+            {
+                if (!Fullscreen)
+                {
+                    SetScreen(true, DesktopWidth, DesktopHeight);
+                }
+                else
+                {
+                    WindowState = WindowState.Normal;
+                    SetScreen(false, prevWindowRect.Width, prevWindowRect.Height);
+                    Location = new Point(prevWindowRect.X, prevWindowRect.Y);
+                }
+            }
         }
 
         protected override void OnRender(FrameEventArgs e)
