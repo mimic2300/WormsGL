@@ -6,6 +6,7 @@ using OpenTK.Input;
 using QuickFont;
 using System;
 using System.Drawing;
+using WormsGL.Properties;
 
 namespace WormsGL
 {
@@ -20,6 +21,7 @@ namespace WormsGL
             : base("Worms", 800, 600)
         {
             // nastavení okna
+            Icon = Resources.worms;
             VSync = VSyncMode.Off;
             Fullscreen = false;
             CursorVisible = true;
