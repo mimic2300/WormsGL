@@ -28,17 +28,20 @@ namespace WormsGL
             Fullscreen = false;
             CursorVisible = true;
             WindowBorder = WindowBorder.Fixed;
-
-            // initializace
-            font = new QFont(new Font(DefaultFontFamily, 16f));
-            cursor = LoadCursor("cursor_normal.cur");
-            menu = new GameMenu(this);
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
+            // základní prvky samotné okno hry
+            font = new QFont(new Font(DefaultFontFamily, 16f));
+            cursor = LoadCursor("cursor_normal.cur");
+
+            // přídavky
+            menu = new GameMenu(this);
+
+            // získá poslední velikost a pozici okna
             prevWindowRect = new Rectangle(Location.X, Location.Y, Width, Height);
         }
 
@@ -53,9 +56,6 @@ namespace WormsGL
             // zobrazí nebo skyje výchozí debug
             if (KeyInput.IsKeyPress(Key.F3))
                 Debug.Enabled = !Debug.Enabled;
-
-            if (KeyInput.IsKeyPress(Key.A))
-                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.NoMove2D;
 
             // nastaví fullscreen v rozlišení plochy
             if (KeyInput.IsKeyPress(Key.F12))

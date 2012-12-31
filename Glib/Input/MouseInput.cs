@@ -1,5 +1,6 @@
 ﻿using OpenTK.Input;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Glib.Input
 {
@@ -13,6 +14,7 @@ namespace Glib.Input
         private Point clickedPosition = Point.Empty;
         private bool clicked = false;
         private MouseButton? button = null;
+        private bool containsMouse = false;
 
         /// <summary>
         /// Konstruktor.
@@ -24,6 +26,11 @@ namespace Glib.Input
             window.Mouse.ButtonDown += (o, e) => { MouseDown(e); };
             window.Mouse.ButtonUp += (o, e) => { MouseUp(e); };
             window.Mouse.Move += (o, e) => { MouseMove(e); };
+            window.UpdateFrame += (o, e) =>
+            {
+                // TODO: stále problém s rámečkem okna
+                containsMouse = window.Bounds.IntersectsWith(new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1));
+            };
         }
 
         /// <summary>
@@ -71,10 +78,7 @@ namespace Glib.Input
         /// </summary>
         public bool ContainsMouse
         {
-            get
-            {
-                return Window.ClientRectangle.IntersectsWith(new Rectangle(X, Y, 1, 1));
-            }
+            get { return containsMouse; }
         }
 
         /// <summary>

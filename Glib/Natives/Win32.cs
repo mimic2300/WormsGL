@@ -21,9 +21,9 @@ namespace Glib.Natives
         #endregion Konstanty
 
         #region Funkce
-        
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        internal static extern IntPtr LoadImage(
+        public static extern IntPtr LoadImage(
             IntPtr hinst,
             string lpszName,
             uint uType,

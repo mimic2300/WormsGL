@@ -265,6 +265,14 @@ namespace Glib
         }
 
         /// <summary>
+        /// Získá pozici a velikost okna.
+        /// </summary>
+        public Rectangle Bounds
+        {
+            get { return new Rectangle(Location.X, Location.Y, Width, Height); }
+        }
+
+        /// <summary>
         /// Získá nebo nastaví Fullscreen.
         /// </summary>
         public bool Fullscreen
