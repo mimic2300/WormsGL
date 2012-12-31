@@ -1,6 +1,7 @@
 ﻿using Glib;
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using QuickFont;
 using System.Collections.Generic;
@@ -8,41 +9,38 @@ using System.Drawing;
 
 namespace WormsGL
 {
-    struct MenuItem
+    struct MenuItem 
     {
-        public short ID;
+        public MenuState State;
         public string Text;
 
-        public MenuItem(string text, short id)
+        public MenuItem(string text, MenuState state)
         {
             Text = text;
-            ID = id;
+            State = state;
         }
     }
 
-    /// <summary>
-    /// Herní menu.
-    /// </summary>
-    class GameMenu
+    class GameMenu : IRenderObject
     {
-        private GlibWindow window;
+        private WormsGame game;
         private QFont font;
         private List<MenuItem> items;
-        private short activeID = 0;
+        private MenuState actualState = MenuState.Play;
 
-        public GameMenu(GlibWindow window)
+        public GameMenu(WormsGame game)
         {
-            this.window = window;
+            this.game = game;
 
             items = new List<MenuItem>();
-            font = new QFont(new Font(window.GlibFont, 18f));
+            font = new QFont(new Font(game.DefaultFontFamily, 28f));
 
             AddMenuItem(
-                new MenuItem("Play", 0),
-                new MenuItem("Options", 1),
-                new MenuItem("Score", 2),
-                new MenuItem("Info", 3),
-                new MenuItem("Exit", 4)
+                new MenuItem("Play", MenuState.Play),
+                new MenuItem("Options", MenuState.Options),
+                new MenuItem("Score", MenuState.Score),
+                new MenuItem("Info", MenuState.Info),
+                new MenuItem("Exit", MenuState.Exit)
                 );
         }
 
@@ -56,52 +54,63 @@ namespace WormsGL
             items.Clear();
         }
 
-        public void Update()
+        private void UpdateControls()
         {
-            if (window.KeyInput.IsKeyPress(Key.Down))
+            if (game.KeyInput.IsKeyPress(Key.Down))
             {
-                activeID++;
+                actualState++;
 
-                if (activeID >= items.Count)
-                    activeID = 0;
+                if (actualState >= MenuState.COUNT)
+                    actualState = MenuState.Play;
             }
-            else if (window.KeyInput.IsKeyPress(Key.Up))
+            else if (game.KeyInput.IsKeyPress(Key.Up))
             {
-                activeID--;
+                actualState--;
 
-                if (activeID < 0)
-                    activeID = (short)(items.Count - 1);
+                if (actualState < 0)
+                    actualState = (MenuState)(items.Count - 1);
             }
-            else if (window.KeyInput.IsKeyPress(Key.Enter))
+            else if (game.KeyInput.IsKeyPress(Key.Enter))
             {
-                switch (activeID)
+                switch (actualState)
                 {
-                    case 4:
-                        window.Exit();
+                    case MenuState.Exit:
+                        game.Exit();
                         break;
                 }
             }
         }
 
-        public void Render()
+        private void DrawMenuItems()
         {
-            Draw.FilledRectangle(50, 50, window.Width - 100, window.Height - 100, Color4.DeepSkyBlue);
+            int y = game.Height - 50;
 
-            int y = 100;
-
-            foreach (MenuItem item in items)
+            for (int i = items.Count - 1; i >= 0; i--)
             {
+                MenuItem item = items[i];
+
                 font.Options.Colour = Color4.White;
                 font.Options.DropShadowActive = false;
 
-                if (item.ID == activeID)
+                if (item.State == actualState)
                 {
                     font.Options.Colour = Color4.Red;
                     font.Options.DropShadowActive = true;
                 }
-                font.Print(item.Text, new Vector2(window.Width / 2, y));
-                y += 25;
+
+                font.Print(item.Text, new Vector2(20, y));
+                y -= 35;
             }
+        }
+
+        public void Render(FrameEventArgs e)
+        {
+            // nastavuje barvu pozadí
+            GL.Disable(EnableCap.Texture2D);
+            Draw.FilledRectangle(0, 0, game.Width, game.Height, new Color4(36, 36, 36, 255));
+
+            UpdateControls(); // umožňuje ovládání menu
+            DrawMenuItems();  // vykreslí položky v menu
         }
     }
 }

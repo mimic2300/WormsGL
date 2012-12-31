@@ -28,6 +28,7 @@ namespace Glib.Diagnostics
             this.window = window;
 
             Font = font;
+            FontColor = Color4.Red;
             Position = new Vector2(10, 10);
             OffsetY = 20f;
             Enabled = true;
@@ -90,7 +91,7 @@ namespace Glib.Diagnostics
                     qFont.Dispose();
                 }
 
-                font = (value == null) ? new Font(window.GlibFont, 13f) : value;
+                font = (value == null) ? new Font(window.DefaultFontFamily, 13f) : value;
                 qFont = new QFont(font);
             }
         }
@@ -131,9 +132,9 @@ namespace Glib.Diagnostics
             foreach (GDebugItem item in items)
             {
                 // aktualizuje informace před vykreslením
-                for (int i = 0; i < item.Value.Length; i++)
+                for (int i = 0; i < item.Values.Length; i++)
                 {
-                    buffer.Add(item.Value[i]());
+                    buffer.Add(item.Values[i]());
                 }
 
                 qFont.Print(string.Format(item.FormatedText, buffer.ToArray()), new Vector2(Position.X, y));

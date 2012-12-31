@@ -15,17 +15,17 @@ namespace Glib.Diagnostics
         /// <summary>
         /// Pole funkcí, které vrací jakoukoliv hodnotu.
         /// </summary>
-        public Func<object>[] Value;
+        public Func<object>[] Values;
 
         /// <summary>
         /// Konstruktor.
         /// </summary>
         /// <param name="formatedText">String, který je poslán jako první parametr metodě string.Format, např. "{0}".</param>
-        /// <param name="value">Pole funkcí, které vrací jakoukoliv hodnotu.</param>
-        public GDebugItem(string formatedText, params Func<object>[] value)
+        /// <param name="values">Pole funkcí, které vrací jakoukoliv hodnotu.</param>
+        public GDebugItem(string formatedText, params Func<object>[] values)
         {
             FormatedText = formatedText;
-            Value = value;
+            Values = values;
         }
     }
 }

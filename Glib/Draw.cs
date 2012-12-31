@@ -583,5 +583,25 @@ namespace Glib
         }
 
         #endregion Texture
+
+        #region Ostatní
+
+        /// <summary>
+        /// Vykreslí vodítka myši.
+        /// </summary>
+        /// <param name="window">Herní okno.</param>
+        /// <param name="color">Barva.</param>
+        public static void MouseGuides(GlibWindow window, Color4 color)
+        {
+            GL.Begin(BeginMode.Lines);
+            GL.Color4(color);
+            GL.Vertex2(window.Mouse.X, 0);
+            GL.Vertex2(window.Mouse.X, window.Height);
+            GL.Vertex2(0, window.Mouse.Y);
+            GL.Vertex2(window.Width, window.Mouse.Y);
+            GL.End();
+        }
+
+        #endregion Ostatní
     }
 }

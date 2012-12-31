@@ -3,6 +3,7 @@
     enum GameState : byte
     {
         Menu,
-        Play
+        Play,
+        Pause
     }
 }

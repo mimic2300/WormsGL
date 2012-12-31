@@ -38,7 +38,7 @@ namespace Glib
         private MouseInput mouse;
         private FpsCounter fpsCounter;
         private GameTime gameTime;
-        private FontFamily glibDefaultFont;
+        private FontFamily defaultFontFamily;
         private GDebug debug;
         private bool begin = false;
         private float deltaTime = 0;
@@ -50,7 +50,8 @@ namespace Glib
         /// </summary>
         private void Init()
         {
-            glibDefaultFont = Util.LoadFontFamily(Resources.SVBasicManual);
+            defaultFontFamily = Util.LoadFontFamily(Resources.SVBasicManual);
+            Content = "Content";
 
             keyboard = new KeyboardInput(this);
             mouse = new MouseInput(this);
@@ -58,7 +59,7 @@ namespace Glib
             gameTime = new GameTime(this);
             debug = new GDebug(this);
 
-            debug.FontColor = Color.White;
+            debug.FontColor = Color4.PaleGreen;
             debug.Add(
                 new GDebugItem("Time: {0:hh}:{0:mm}:{0:ss}.{0:FFF}", () => TimeElapsed),
                 new GDebugItem("FPS: {0}", () => FPS.ToString("#")),
@@ -230,11 +231,27 @@ namespace Glib
         }
 
         /// <summary>
-        /// Nativní font z Glib API.
+        /// Šířka plochy.
         /// </summary>
-        public FontFamily GlibFont
+        public int DesktopWidth
         {
-            get { return glibDefaultFont; }
+            get { return DisplayDevice.GetDisplay(0).Width; }
+        }
+
+        /// <summary>
+        /// Výška plochy.
+        /// </summary>
+        public int DesktopHeight
+        {
+            get { return DisplayDevice.GetDisplay(0).Height; }
+        }
+
+        /// <summary>
+        /// Nativní FontFamily z Glib API.
+        /// </summary>
+        public FontFamily DefaultFontFamily
+        {
+            get { return defaultFontFamily; }
         }
 
         /// <summary>
@@ -243,6 +260,19 @@ namespace Glib
         public GDebug Debug
         {
             get { return debug; }
+        }
+
+        /// <summary>
+        /// Získá nebo nastaví Fullscreen.
+        /// </summary>
+        public bool Fullscreen
+        {
+            get { return (WindowState == WindowState.Fullscreen); }
+            set
+            {
+                if (WindowState != WindowState.Fullscreen && value)
+                    WindowState = WindowState.Fullscreen;
+            }
         }
 
         #endregion Vlastnosti
@@ -297,6 +327,18 @@ namespace Glib
         public Texture2D LoadTexture(string filename)
         {
             return Texture2D.Load(Path.Combine(Content, filename));
+        }
+
+        /// <summary>
+        /// Nastaví vlastní zobrazení.
+        /// </summary>
+        /// <param name="fullscreen">Fullscreen.</param>
+        /// <param name="width">Šířka.</param>
+        /// <param name="height">Výška.</param>
+        public void SetScreen(bool fullscreen, int width, int height)
+        {
+            Size = new Size(width, height);
+            Fullscreen = fullscreen;
         }
 
         #endregion Funkce
