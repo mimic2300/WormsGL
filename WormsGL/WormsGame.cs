@@ -15,7 +15,7 @@ namespace WormsGL
         private QFont font;
 
         public WormsGame()
-            : base("Worms", 800, 600, GraphicsMode.Default)
+            : base("Worms", 800, 600)
         {
             // nastavení okna
             VSync = VSyncMode.Off;

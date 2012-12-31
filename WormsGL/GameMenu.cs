@@ -67,7 +67,7 @@ namespace WormsGL
             {
                 actualState--;
 
-                if (actualState < 0)
+                if (actualState < MenuState.Play)
                     actualState = (MenuState)(items.Count - 1);
             }
             else if (game.KeyInput.IsKeyPress(Key.Enter))

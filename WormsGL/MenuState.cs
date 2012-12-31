@@ -1,6 +1,6 @@
 ﻿namespace WormsGL
 {
-    enum MenuState : byte
+    enum MenuState : short
     {
         Play,
         Options,
