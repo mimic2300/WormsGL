@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Glib.Natives;
+using System;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Windows.Forms;
 
 namespace Glib
 {
@@ -46,13 +48,24 @@ namespace Glib
         /// <summary>
         /// Načte font ze zdrojů.
         /// </summary>
-        /// <param name="fontResourceData">Dara fontu ze zdrojů.</param>
+        /// <param name="fontResourceData">Data fontu ze zdrojů.</param>
         /// <returns>Vrací FontFamily.</returns>
         public static FontFamily LoadFontFamily(byte[] fontResourceData)
         {
             PrivateFontCollection fontCollection;
             FontFamily family = LoadFontFamily(fontResourceData, out fontCollection);
             return family;
+        }
+
+        /// <summary>
+        /// Načte kurzor ze souboru.
+        /// </summary>
+        /// <param name="filename">Cesta ke kurzoru.</param>
+        /// <returns>Vrací kurzor.</returns>
+        public static Cursor LoadCursor(string filename)
+        {
+            IntPtr ptrImage = Win32.LoadImage(IntPtr.Zero, filename, Win32.IMAGE_CURSOR, 0, 0, Win32.LR_LOADFROMFILE);
+            return new Cursor(ptrImage);
         }
     }
 }

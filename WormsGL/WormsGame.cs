@@ -6,6 +6,7 @@ using OpenTK.Input;
 using QuickFont;
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 using WormsGL.Properties;
 
 namespace WormsGL
@@ -16,6 +17,7 @@ namespace WormsGL
         private Rectangle prevWindowRect;
         private GameMenu menu;
         private QFont font;
+        private Cursor cursor;
 
         public WormsGame()
             : base("Worms", 800, 600)
@@ -29,6 +31,7 @@ namespace WormsGL
 
             // initializace
             font = new QFont(new Font(DefaultFontFamily, 16f));
+            cursor = LoadCursor("cursor_normal.cur");
             menu = new GameMenu(this);
         }
 
@@ -51,6 +54,9 @@ namespace WormsGL
             if (KeyInput.IsKeyPress(Key.F3))
                 Debug.Enabled = !Debug.Enabled;
 
+            if (KeyInput.IsKeyPress(Key.A))
+                System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.NoMove2D;
+
             // nastaví fullscreen v rozlišení plochy
             if (KeyInput.IsKeyPress(Key.F12))
             {
@@ -65,6 +71,9 @@ namespace WormsGL
                     Location = new Point(prevWindowRect.X, prevWindowRect.Y);
                 }
             }
+
+            // aktualizace kurzoru
+            Cursor.Current = cursor;
         }
 
         protected override void OnRender(FrameEventArgs e)
@@ -79,7 +88,7 @@ namespace WormsGL
 
             // vykreslí vodítka myší (dočasně)
             GL.Disable(EnableCap.Texture2D);
-            Draw.MouseGuides(this, Color4.Red);
+            Draw.MouseGuides(this, new Color4(128, 128, 128, 128));
         }
     }
 }

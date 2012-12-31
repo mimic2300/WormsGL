@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Glib
 {
@@ -51,6 +52,7 @@ namespace Glib
         private void Init()
         {
             defaultFontFamily = Util.LoadFontFamily(Resources.SVBasicManual);
+
             Content = "Content";
 
             keyboard = new KeyboardInput(this);
@@ -327,6 +329,16 @@ namespace Glib
         public Texture2D LoadTexture(string filename)
         {
             return Texture2D.Load(Path.Combine(Content, filename));
+        }
+
+        /// <summary>
+        /// Načte kurzor z herního obsahu.
+        /// </summary>
+        /// <param name="filename">Název kurzoru.</param>
+        /// <returns>Vrací kurzor.</returns>
+        public Cursor LoadCursor(string filename)
+        {
+            return Util.LoadCursor(Path.Combine(Content, filename));
         }
 
         /// <summary>
