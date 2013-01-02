@@ -32,7 +32,7 @@ namespace Glib
         /// <param name="color">Barva.</param>
         /// <param name="alpha">Alfa kanál (0 = 100% průhlednost).</param>
         /// <returns>Upravená barva.</returns>
-        public static Color4 Alpha(this Color4 color, byte alpha)
+        public static Color4 Alpha(this Color4 color, float alpha)
         {
             color.A = alpha;
             return color;

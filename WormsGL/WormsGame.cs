@@ -7,6 +7,7 @@ using QuickFont;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using WormsGL.Menu;
 using WormsGL.Properties;
 
 namespace WormsGL
@@ -15,16 +16,16 @@ namespace WormsGL
     {
         private GameState gameState = GameState.Menu;
         private Rectangle prevWindowRect;
-        private GameMenu menu;
+        private IRenderObject gameMenu;
         private QFont font;
         private Cursor cursor;
 
         public WormsGame()
-            : base("Worms", 800, 600)
+            : base("Worms", 800, 600, new GraphicsMode(32, 24, 0, 8))
         {
             // nastavení okna
             Icon = Resources.worms;
-            VSync = VSyncMode.Off;
+            VSync = VSyncMode.On;
             Fullscreen = false;
             CursorVisible = true;
             WindowBorder = WindowBorder.Fixed;
@@ -39,7 +40,7 @@ namespace WormsGL
             cursor = LoadCursor("cursor_normal.cur");
 
             // přídavky
-            menu = new GameMenu(this);
+            gameMenu = new GameMenu(this);
 
             // získá poslední velikost a pozici okna
             prevWindowRect = new Rectangle(Location.X, Location.Y, Width, Height);
@@ -82,7 +83,7 @@ namespace WormsGL
             {
                 // hráč vstoupí do herního menu (výchozí po spuštění app)
                 case GameState.Menu:
-                    menu.Render(e);
+                    gameMenu.Render(e);
                     break;
             }
 
